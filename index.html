@@ -5,12 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>FactFlow AI — Daily Content Generator</title>
 <meta name="theme-color" content="#050508">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="FactFlow">
-
-<!-- Custom SVG Favicon -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2305d67d'/><stop offset='100%25' stop-color='%237c5cfc'/></linearGradient></defs><rect width='100' height='100' rx='22' fill='%23050508'/><polygon points='50,15 62,38 88,38 67,56 75,80 50,65 25,80 33,56 12,38 38,38' fill='url(%23g)'/></svg>">
-
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -27,11 +22,9 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--txt);font-family:var(--font);min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 5% 10%,rgba(5,214,125,0.07) 0%,transparent 55%),radial-gradient(ellipse 60% 50% at 95% 90%,rgba(124,92,252,0.07) 0%,transparent 55%);pointer-events:none;z-index:0}
-
-/* GATE */
 .gate{position:fixed;inset:0;background:rgba(5,5,8,0.98);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
 .gate-box{background:var(--card);border:1px solid var(--bd2);border-radius:20px;padding:32px 28px;max-width:420px;width:100%;text-align:center}
-.gate-logo{width:64px;height:64px;background:linear-gradient(135deg,var(--grn),var(--pu));border-radius:18px;display:grid;place-items:center;margin:0 auto 16px;position:relative}
+.gate-logo{width:64px;height:64px;background:linear-gradient(135deg,var(--grn),var(--pu));border-radius:18px;display:grid;place-items:center;margin:0 auto 16px}
 .gate-logo svg{width:36px;height:36px}
 .gate-title{font-family:var(--display);font-size:30px;letter-spacing:1.5px;margin-bottom:6px}
 .gate-sub{font-size:13px;color:var(--mut2);line-height:1.7;margin-bottom:20px}
@@ -49,8 +42,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .gate-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(5,214,125,0.3)}
 .gate-note{font-size:11px;color:var(--mut);line-height:1.65}
 .gate-err{background:rgba(255,71,87,0.1);color:#ff8a95;border:1px solid rgba(255,71,87,0.25);border-radius:9px;padding:9px 13px;font-size:13px;display:none;margin-bottom:10px}
-
-/* NAV */
 .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:58px;background:rgba(5,5,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd)}
 .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer}
 .nav-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--grn),var(--pu));border-radius:9px;display:grid;place-items:center}
@@ -65,21 +56,16 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .tab-btn{padding:6px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--mut2);transition:all .17s;white-space:nowrap;font-family:var(--font)}
 .tab-btn:hover{color:var(--txt)}
 .tab-btn.active{background:rgba(5,214,125,0.12);color:var(--grn)}
-.tab-btn.active-coach{background:rgba(124,92,252,0.12);color:var(--pu2)}
 .hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px}
 .hbg span{display:block;width:20px;height:1.5px;background:var(--txt);border-radius:2px}
 .mob-nav{display:none;flex-direction:column;gap:4px;padding:10px 16px 14px;border-bottom:1px solid var(--bd);background:var(--card);position:sticky;top:58px;z-index:49}
 .mob-nav.open{display:flex}
 .mob-tab{padding:11px 14px;border-radius:9px;font-size:14px;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--card2);color:var(--mut2);text-align:left;font-family:var(--font);transition:.17s}
 .mob-tab.active,.mob-tab:hover{background:rgba(5,214,125,0.1);border-color:rgba(5,214,125,0.3);color:var(--grn)}
-
-/* PANELS */
 .panel-wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:0 16px 100px}
 .panel{display:none}
 .panel.active{display:block;animation:fadeup .25s ease}
 @keyframes fadeup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
-/* HERO */
 .hero{text-align:center;padding:52px 20px 44px;max-width:640px;margin:0 auto}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--bd2);padding:6px 16px;border-radius:30px;font-size:11px;color:var(--mut2);margin-bottom:22px;letter-spacing:.03em}
 .hero h1{font-family:var(--display);font-size:clamp(46px,9vw,84px);line-height:.95;letter-spacing:2px;margin-bottom:16px}
@@ -89,8 +75,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .hero-pills{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
 .hpill{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--bd2);padding:8px 16px;border-radius:30px;font-size:12px;color:var(--mut2)}
 .hpill strong{color:var(--txt);font-weight:600}
-
-/* CARDS */
 .sec{margin-bottom:12px}
 .scard{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:22px;position:relative;overflow:hidden}
 .scard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.07),transparent)}
@@ -101,8 +85,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sci-y{background:rgba(255,211,42,0.1);border:1px solid rgba(255,211,42,0.2)}
 .sct{font-size:14px;font-weight:700;color:var(--txt)}
 .scs{font-size:11px;color:var(--mut2);margin-top:2px}
-
-/* NICHE GRID */
 .niche-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 @media(max-width:520px){.niche-grid{grid-template-columns:repeat(2,1fr)}}
 .ni{border:1px solid var(--bd);border-radius:12px;padding:14px 8px;text-align:center;cursor:pointer;background:var(--card2);transition:all .17s;user-select:none;position:relative}
@@ -113,8 +95,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ni-n{font-size:11px;font-weight:600;color:var(--txt);line-height:1.3}
 .ni-s{font-size:10px;color:var(--mut);margin-top:2px}
 .custom-box{display:none;margin-top:10px}
-
-/* PLATFORM */
 .plat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:460px){.plat-grid{grid-template-columns:1fr}}
 .plat-item{border:1px solid var(--bd);border-radius:12px;padding:16px;cursor:pointer;background:var(--card2);transition:all .17s;display:flex;align-items:center;gap:14px;user-select:none}
@@ -125,21 +105,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .pi-yt{background:rgba(255,0,0,.12);border:1px solid rgba(255,0,0,.2)}
 .pi-n{font-size:13px;font-weight:600;color:var(--txt)}
 .pi-d{font-size:11px;color:var(--mut2);margin-top:2px}
-
-/* STYLE CHIPS */
 .chip-row{display:flex;flex-wrap:wrap;gap:7px}
 .chip{padding:7px 14px;border-radius:30px;border:1px solid var(--bd);background:var(--card2);font-size:12px;color:var(--mut2);cursor:pointer;transition:all .16s;user-select:none}
 .chip:hover{color:var(--txt);border-color:var(--bd2)}
 .chip.on{background:rgba(124,92,252,0.1);border-color:rgba(124,92,252,0.4);color:var(--pu2);font-weight:600}
-
-/* THEME DOTS */
 .tdots{display:flex;gap:10px;flex-wrap:wrap}
 .tdot{width:34px;height:34px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .17s;position:relative;flex-shrink:0}
 .tdot:hover{transform:scale(1.1)}
 .tdot.on{border-color:rgba(255,255,255,0.7);transform:scale(1.15)}
 .tdot.on::after{content:'✓';position:absolute;inset:0;display:grid;place-items:center;font-size:13px;color:#fff;font-weight:700}
-
-/* FIELDS */
 .flabel{font-size:10px;font-weight:700;color:var(--mut2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;display:block}
 select,input[type=text],input[type=password]{width:100%;background:var(--card2);border:1px solid var(--bd2);border-radius:10px;padding:11px 14px;font-size:14px;font-family:var(--font);color:var(--txt);outline:none;transition:border .17s;-webkit-appearance:none}
 select:focus,input:focus{border-color:rgba(5,214,125,0.4);background:var(--card3)}
@@ -147,8 +121,8 @@ select option{background:#121220}
 .fw{margin-bottom:14px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:460px){.g2{grid-template-columns:1fr}}
-
-/* GEN BTN */
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:460px){.g3{grid-template-columns:1fr}}
 .gen-btn{width:100%;padding:17px;border:none;border-radius:14px;background:linear-gradient(135deg,var(--grn),#03a85f);color:#000;font-size:16px;font-family:var(--display);letter-spacing:2px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px}
 .gen-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 12px 40px rgba(5,214,125,0.3)}
 .gen-btn:disabled{opacity:.3;cursor:not-allowed;transform:none}
@@ -156,8 +130,6 @@ select option{background:#121220}
 .pfill{height:100%;background:linear-gradient(90deg,var(--grn),var(--grn2));animation:pg 2.5s ease-in-out infinite}
 @keyframes pg{0%{width:0}60%{width:76%}100%{width:93%}}
 .errbox{background:rgba(255,71,87,0.08);color:#ff8a95;border:1px solid rgba(255,71,87,0.22);border-radius:10px;padding:12px 16px;font-size:13px;display:none;margin-top:10px;line-height:1.5}
-
-/* RESULTS */
 .results{display:none;margin-top:20px}
 .res-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
 .res-title{font-family:var(--display);font-size:26px;letter-spacing:1px}
@@ -168,36 +140,37 @@ select option{background:#121220}
 .met{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;text-align:center}
 .met-n{font-family:var(--display);font-size:28px;letter-spacing:1px;background:linear-gradient(135deg,var(--grn),var(--grn2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .met-l{font-size:10px;color:var(--mut);margin-top:3px;text-transform:uppercase;letter-spacing:.06em}
-
-/* POST CARDS */
 .posts-list{display:flex;flex-direction:column;gap:20px}
 .pcard{background:var(--card);border:1px solid var(--bd);border-radius:16px;overflow:hidden}
-
-/* VIDEO SECTION */
+/* VIDEO SECTION - REDESIGNED */
 .video-section{background:var(--card2);border-bottom:1px solid var(--bd);padding:14px 16px}
 .video-label{font-size:11px;font-weight:700;color:var(--grn);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.video-container{position:relative;width:100%;aspect-ratio:9/16;max-height:420px;background:#000;border-radius:10px;overflow:hidden;margin-bottom:10px}
+.video-container{position:relative;width:100%;aspect-ratio:9/16;max-height:480px;background:#000;border-radius:10px;overflow:hidden;margin-bottom:10px}
 .video-canvas{width:100%;height:100%;display:block}
-.video-btns{display:flex;gap:8px}
-.vbtn{flex:1;padding:9px;border:1px solid var(--bd2);border-radius:9px;background:var(--card3);font-size:12px;font-weight:600;cursor:pointer;color:var(--txt);transition:all .16s;font-family:var(--font);display:flex;align-items:center;justify-content:center;gap:5px}
+.video-btns{display:flex;gap:8px;flex-wrap:wrap}
+.vbtn{flex:1;min-width:120px;padding:10px;border:1px solid var(--bd2);border-radius:9px;background:var(--card3);font-size:12px;font-weight:600;cursor:pointer;color:var(--txt);transition:all .16s;font-family:var(--font);display:flex;align-items:center;justify-content:center;gap:5px}
 .vbtn:hover{border-color:var(--grn);color:var(--grn)}
 .vbtn.primary{background:linear-gradient(135deg,var(--grn),#03a85f);color:#000;border:none}
 .vbtn.primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(5,214,125,0.3);color:#000}
 .vbtn:disabled{opacity:.4;cursor:not-allowed}
 .render-prog{height:4px;background:var(--card3);border-radius:4px;overflow:hidden;display:none;margin-top:8px}
 .render-fill{height:100%;background:linear-gradient(90deg,var(--grn),var(--pu));border-radius:4px;transition:width .1s}
-
-/* AUDIO BAR */
+.render-status{font-size:11px;color:var(--mut2);margin-top:5px;display:none;text-align:center}
+/* DURATION SELECTOR */
+.dur-select{display:flex;gap:8px;margin-bottom:12px}
+.dur-btn{flex:1;padding:8px 6px;border:1px solid var(--bd);border-radius:8px;background:var(--card3);font-size:12px;font-weight:600;cursor:pointer;color:var(--mut2);transition:all .16s;font-family:var(--font);text-align:center}
+.dur-btn:hover{border-color:var(--grn2);color:var(--grn2)}
+.dur-btn.on{background:rgba(5,214,125,0.12);border-color:rgba(5,214,125,0.45);color:var(--grn)}
+/* VOICE BAR */
 .audio-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--bd);background:rgba(5,214,125,0.03)}
-.play-btn{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--grn),#03a85f);border:none;display:grid;place-items:center;cursor:pointer;flex-shrink:0;font-size:14px;color:#000;font-weight:700;transition:all .17s}
+.play-btn{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--grn),#03a85f);border:none;display:grid;place-items:center;cursor:pointer;flex-shrink:0;font-size:16px;color:#000;transition:all .17s}
 .play-btn:hover{transform:scale(1.07)}
 .audio-info{flex:1;min-width:0}
 .audio-title{font-size:12px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .audio-sub{font-size:10px;color:var(--mut2);margin-top:2px}
 .audio-prog-wrap{flex:1;height:4px;background:var(--card3);border-radius:4px;overflow:hidden;cursor:pointer}
 .audio-prog-fill{height:100%;background:linear-gradient(90deg,var(--grn),var(--grn2));width:0%;transition:width .1s;border-radius:4px}
-
-/* POST BODY */
+.voice-note{font-size:10px;color:var(--yel);padding:4px 16px 8px;background:rgba(255,211,42,0.05)}
 .pbody{padding:16px}
 .phead{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .pday{font-size:10px;font-weight:700;font-family:var(--display);letter-spacing:.5px;padding:4px 11px;border-radius:20px;background:rgba(5,214,125,0.12);color:var(--grn);border:1px solid rgba(5,214,125,0.2)}
@@ -215,8 +188,6 @@ select option{background:#121220}
 .pa-yt:hover{color:#ff0000}
 .copy-all-btn{width:100%;padding:14px;margin-top:14px;background:var(--card);border:1px solid var(--bd2);border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;color:var(--txt);transition:all .17s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font)}
 .copy-all-btn:hover{border-color:var(--grn);color:var(--grn)}
-
-/* EARN */
 .earn-ttl{font-family:var(--display);font-size:22px;letter-spacing:1px;color:var(--mut2);margin:24px 0 12px}
 .earn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 @media(max-width:460px){.earn-grid{grid-template-columns:1fr 1fr}}
@@ -226,13 +197,10 @@ select option{background:#121220}
 .e-lbl{font-size:11px;font-weight:600;color:var(--txt);margin-bottom:4px}
 .e-amt{font-family:var(--display);font-size:22px;letter-spacing:.5px;background:linear-gradient(135deg,var(--grn),var(--grn2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px}
 .e-desc{font-size:10px;color:var(--mut);line-height:1.55}
-
-/* ── AI COACH ── */
+/* AI COACH */
 .coach-hero{text-align:center;padding:40px 0 30px}
 .coach-hero h2{font-family:var(--display);font-size:clamp(32px,6vw,52px);letter-spacing:1.5px;margin-bottom:10px}
 .coach-hero p{font-size:14px;color:var(--mut2);line-height:1.75;max-width:460px;margin:0 auto 24px}
-
-/* STATS FORM */
 .stats-form{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:22px;margin-bottom:16px}
 .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
 @media(max-width:460px){.stats-grid{grid-template-columns:1fr}}
@@ -244,8 +212,6 @@ select option{background:#121220}
 .analyze-btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--pu),#5a3fc0);color:#fff;font-size:15px;font-family:var(--display);letter-spacing:1.5px;cursor:pointer;transition:all .2s}
 .analyze-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 30px rgba(124,92,252,0.3)}
 .analyze-btn:disabled{opacity:.3;cursor:not-allowed}
-
-/* CHAT */
 .chat-wrap{background:var(--card);border:1px solid var(--bd);border-radius:16px;overflow:hidden;margin-bottom:16px}
 .chat-header{padding:14px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px;background:var(--card2)}
 .chat-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--pu),var(--grn));display:grid;place-items:center;font-size:16px;flex-shrink:0}
@@ -273,29 +239,13 @@ select option{background:#121220}
 .chat-send{width:42px;height:42px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--pu),#5a3fc0);color:#fff;cursor:pointer;font-size:16px;display:grid;place-items:center;flex-shrink:0;transition:all .17s}
 .chat-send:hover{transform:scale(1.05)}
 .chat-send:disabled{opacity:.3}
-
-/* QUICK PROMPTS */
 .quick-prompts{display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px 0;border-top:1px solid var(--bd)}
 .qp{padding:6px 12px;background:var(--card2);border:1px solid var(--bd);border-radius:20px;font-size:11px;color:var(--mut2);cursor:pointer;transition:all .16s;font-family:var(--font)}
 .qp:hover{border-color:var(--pu2);color:var(--pu2)}
-
-/* PLAN CARD */
 .plan-card{background:var(--card);border:1px solid var(--bd);border-radius:16px;overflow:hidden;margin-bottom:14px}
 .plan-header{padding:16px 20px;background:linear-gradient(135deg,rgba(124,92,252,0.15),rgba(5,214,125,0.1));border-bottom:1px solid var(--bd)}
 .plan-title{font-family:var(--display);font-size:22px;letter-spacing:1px;margin-bottom:4px}
 .plan-sub{font-size:12px;color:var(--mut2)}
-.plan-steps{display:flex;flex-direction:column;gap:0}
-.plan-step{display:flex;gap:14px;padding:14px 20px;border-bottom:1px solid var(--bd)}
-.plan-step:last-child{border-bottom:none}
-.ps-icon{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:14px;flex-shrink:0;margin-top:2px}
-.ps-g{background:rgba(5,214,125,0.12);border:1px solid rgba(5,214,125,0.25)}
-.ps-p{background:rgba(124,92,252,0.12);border:1px solid rgba(124,92,252,0.25)}
-.ps-y{background:rgba(255,211,42,0.12);border:1px solid rgba(255,211,42,0.25)}
-.ps-r{background:rgba(255,71,87,0.12);border:1px solid rgba(255,71,87,0.25)}
-.ps-title{font-size:13px;font-weight:700;margin-bottom:3px}
-.ps-desc{font-size:12px;color:var(--mut2);line-height:1.6}
-
-/* GROWTH GUIDE */
 .growth-hero{text-align:center;padding:40px 0 30px}
 .growth-hero h2{font-family:var(--display);font-size:clamp(32px,6vw,56px);letter-spacing:1.5px;margin-bottom:10px}
 .growth-hero p{font-size:14px;color:var(--mut2);line-height:1.75;max-width:460px;margin:0 auto}
@@ -317,7 +267,6 @@ select option{background:#121220}
 .t-day{font-size:11px;font-weight:600;margin:4px 0 2px}
 .t-why{font-size:10px;color:var(--mut);line-height:1.5}
 .t-rank{font-size:9px;font-weight:700;color:var(--yel);margin-top:6px;text-transform:uppercase;letter-spacing:.05em}
-
 @media(max-width:600px){
   .nav{padding:0 14px;height:54px}
   .tabs{display:none}
@@ -331,13 +280,10 @@ select option{background:#121220}
 </head>
 <body>
 
-<!-- GATE -->
 <div class="gate" id="gate">
   <div class="gate-box">
     <div class="gate-logo">
-      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polygon points="18,4 22,14 33,14 24,21 27,32 18,25 9,32 12,21 3,14 14,14" fill="white"/>
-      </svg>
+      <svg viewBox="0 0 36 36" fill="none"><polygon points="18,4 22,14 33,14 24,21 27,32 18,25 9,32 12,21 3,14 14,14" fill="white"/></svg>
     </div>
     <div class="gate-title">FACTFLOW AI</div>
     <div class="gate-sub">Generate daily viral content for Instagram & YouTube — plus AI growth coaching to tell you exactly what to do next.</div>
@@ -354,7 +300,6 @@ select option{background:#121220}
   </div>
 </div>
 
-<!-- NAV -->
 <nav class="nav">
   <div class="nav-logo" onclick="showPanel('gen')">
     <div class="nav-icon">
@@ -381,16 +326,16 @@ select option{background:#121220}
 
 <div class="panel-wrap">
 
-<!-- ═══ GENERATE PANEL ═══ -->
+<!-- GENERATE PANEL -->
 <div class="panel active" id="panel-gen">
   <div class="hero">
     <div class="hero-eyebrow"><span class="ndot"></span> Reel Video + Image Card + Caption — Download & Post</div>
     <h1><span>VIRAL REELS</span><span class="h-g">READY TO</span><span class="h-p">DOWNLOAD</span></h1>
-    <p class="hero-sub">Generate animated video reels with moving text + background music, downloadable image cards, and full captions. Post daily. Grow.</p>
+    <p class="hero-sub">Generate animated video reels with full static text + real human AI voice, downloadable image cards, and full captions. Post daily. Grow.</p>
     <div class="hero-pills">
-      <div class="hpill">🎬 <strong>Video Reel</strong> download</div>
-      <div class="hpill">🖼️ <strong>Image card</strong> included</div>
-      <div class="hpill">🎵 <strong>Background</strong> music</div>
+      <div class="hpill">🎬 <strong>Video Reel</strong> 30–60 sec</div>
+      <div class="hpill">🗣️ <strong>Human Voice</strong> narration</div>
+      <div class="hpill">📄 <strong>Full Text</strong> centered</div>
       <div class="hpill">💰 <strong>₹0</strong> forever</div>
     </div>
   </div>
@@ -458,7 +403,7 @@ select option{background:#121220}
 
   <div class="results" id="results">
     <div class="res-top">
-      <div><div class="res-title">YOUR CONTENT ✦</div><div style="font-size:13px;color:var(--mut2);margin-top:4px">🎬 Download reel video · 🖼️ Save image · 📸 Post to IG</div></div>
+      <div><div class="res-title">YOUR CONTENT ✦</div><div style="font-size:13px;color:var(--mut2);margin-top:4px">🎬 Download reel · 🗣️ Human voice preview · 📸 Post to IG</div></div>
       <div style="display:flex;gap:8px;align-items:center"><span class="res-badge" id="res-count">5 posts</span><button class="regen" onclick="generate()">🔄 New batch</button></div>
     </div>
     <div class="mets">
@@ -477,81 +422,29 @@ select option{background:#121220}
   </div>
 </div>
 
-<!-- ═══ AI COACH PANEL ═══ -->
+<!-- AI COACH PANEL -->
 <div class="panel" id="panel-coach">
   <div class="coach-hero">
     <h2>AI <span class="h-p">GROWTH</span><br>COACH</h2>
     <p>Tell me your stats — followers, views, likes — and I'll tell you exactly what to do next. Zero fluff, just action steps.</p>
   </div>
-
-  <!-- Stats Input Form -->
   <div class="stats-form">
     <div class="sch"><div class="sci sci-p">📊</div><div><div class="sct">Your current stats</div><div class="scs">Fill what you have — leave blank what you don't know</div></div></div>
     <div class="stats-grid">
-      <div class="stat-inp-wrap">
-        <label>Platform</label>
-        <select id="coach-platform" class="stat-inp">
-          <option value="Instagram">Instagram</option>
-          <option value="YouTube">YouTube</option>
-          <option value="Both">Both</option>
-        </select>
-      </div>
-      <div class="stat-inp-wrap">
-        <label>Followers / Subscribers</label>
-        <input type="text" id="coach-followers" class="stat-inp" placeholder="e.g. 0, 150, 2000"/>
-      </div>
-      <div class="stat-inp-wrap">
-        <label>Avg Views per post</label>
-        <input type="text" id="coach-views" class="stat-inp" placeholder="e.g. 0, 50, 500"/>
-      </div>
-      <div class="stat-inp-wrap">
-        <label>Avg Likes per post</label>
-        <input type="text" id="coach-likes" class="stat-inp" placeholder="e.g. 0, 20, 200"/>
-      </div>
-      <div class="stat-inp-wrap">
-        <label>How long posting?</label>
-        <select id="coach-duration" class="stat-inp">
-          <option value="just started today">Just started today</option>
-          <option value="less than 1 week">Less than 1 week</option>
-          <option value="1-2 weeks">1–2 weeks</option>
-          <option value="1 month">1 month</option>
-          <option value="2-3 months">2–3 months</option>
-          <option value="more than 3 months">More than 3 months</option>
-        </select>
-      </div>
-      <div class="stat-inp-wrap">
-        <label>Posts per week</label>
-        <select id="coach-frequency" class="stat-inp">
-          <option value="0 - I haven't posted yet">0 — haven't posted yet</option>
-          <option value="1-2 posts per week">1–2 posts/week</option>
-          <option value="3-4 posts per week">3–4 posts/week</option>
-          <option value="5-7 posts per week (daily)">Daily (5–7/week)</option>
-        </select>
-      </div>
+      <div class="stat-inp-wrap"><label>Platform</label><select id="coach-platform" class="stat-inp"><option value="Instagram">Instagram</option><option value="YouTube">YouTube</option><option value="Both">Both</option></select></div>
+      <div class="stat-inp-wrap"><label>Followers / Subscribers</label><input type="text" id="coach-followers" class="stat-inp" placeholder="e.g. 0, 150, 2000"/></div>
+      <div class="stat-inp-wrap"><label>Avg Views per post</label><input type="text" id="coach-views" class="stat-inp" placeholder="e.g. 0, 50, 500"/></div>
+      <div class="stat-inp-wrap"><label>Avg Likes per post</label><input type="text" id="coach-likes" class="stat-inp" placeholder="e.g. 0, 20, 200"/></div>
+      <div class="stat-inp-wrap"><label>How long posting?</label><select id="coach-duration" class="stat-inp"><option value="just started today">Just started today</option><option value="less than 1 week">Less than 1 week</option><option value="1-2 weeks">1–2 weeks</option><option value="1 month">1 month</option><option value="2-3 months">2–3 months</option><option value="more than 3 months">More than 3 months</option></select></div>
+      <div class="stat-inp-wrap"><label>Posts per week</label><select id="coach-frequency" class="stat-inp"><option value="0 - I haven't posted yet">0 — haven't posted yet</option><option value="1-2 posts per week">1–2 posts/week</option><option value="3-4 posts per week">3–4 posts/week</option><option value="5-7 posts per week (daily)">Daily (5–7/week)</option></select></div>
     </div>
-    <div class="stat-inp-wrap" style="margin-bottom:14px">
-      <label>Your niche / content type</label>
-      <input type="text" id="coach-niche" class="stat-inp" placeholder="e.g. Dark India history facts, Cricket facts, Psychology..."/>
-    </div>
-    <div class="stat-inp-wrap" style="margin-bottom:16px">
-      <label>Biggest problem right now</label>
-      <input type="text" id="coach-problem" class="stat-inp" placeholder="e.g. getting 0 views, don't know what to post, low engagement..."/>
-    </div>
+    <div class="stat-inp-wrap" style="margin-bottom:14px"><label>Your niche / content type</label><input type="text" id="coach-niche" class="stat-inp" placeholder="e.g. Dark India history facts, Cricket facts, Psychology..."/></div>
+    <div class="stat-inp-wrap" style="margin-bottom:16px"><label>Biggest problem right now</label><input type="text" id="coach-problem" class="stat-inp" placeholder="e.g. getting 0 views, don't know what to post, low engagement..."/></div>
     <button class="analyze-btn" id="analyze-btn" onclick="analyzeStats()">🤖 GET MY GROWTH PLAN</button>
   </div>
-
-  <!-- Plan Output -->
   <div id="plan-output" style="display:none"></div>
-
-  <!-- Chat -->
   <div class="chat-wrap" id="chat-section" style="display:none">
-    <div class="chat-header">
-      <div class="chat-avatar">🤖</div>
-      <div>
-        <div class="chat-name">FactFlow AI Coach</div>
-        <div class="chat-status"><span class="ndot"></span> Online — Ask me anything</div>
-      </div>
-    </div>
+    <div class="chat-header"><div class="chat-avatar">🤖</div><div><div class="chat-name">FactFlow AI Coach</div><div class="chat-status"><span class="ndot"></span> Online — Ask me anything</div></div></div>
     <div class="quick-prompts" id="quick-prompts">
       <div class="qp" onclick="sendQuick('I got 0 views on my last post. What should I do?')">0 views help</div>
       <div class="qp" onclick="sendQuick('When is the best time to post today?')">Best time to post</div>
@@ -568,13 +461,12 @@ select option{background:#121220}
   </div>
 </div>
 
-<!-- ═══ GROWTH GUIDE PANEL ═══ -->
+<!-- GROWTH GUIDE PANEL -->
 <div class="panel" id="panel-grow">
   <div class="growth-hero">
     <h2>DAY 1 TO <span class="h-g">DAY 15</span><br>GROWTH GUIDE</h2>
     <p>Exact actions to take every single day to grow from 0 to your first 5,000 followers.</p>
   </div>
-
   <div class="scard" style="margin-bottom:14px">
     <div class="sch"><div class="sci sci-g">⏰</div><div><div class="sct">Best posting times for India</div><div class="scs">Maximum Indian audience reach</div></div></div>
     <div class="time-grid">
@@ -586,26 +478,23 @@ select option{background:#121220}
       <div class="tcard"><div class="t-time">11 PM</div><div class="t-day">Avoid</div><div class="t-why">Most people sleeping</div><div class="t-rank">❌ Worst time</div></div>
     </div>
   </div>
-
   <div class="phase-label"><span>PHASE 1 — SETUP</span><span class="phase-line"></span><span style="font-size:12px;color:var(--mut2);white-space:nowrap">Day 1–3</span></div>
   <div class="day-cards">
     <div class="day-card"><div class="day-num">01</div><div><div class="day-title">Create account with the right username</div><div class="day-task">Pick a niche username like @darkindiahistory or @mindfactsdaily. Write bio: "Daily [niche] facts 🇮🇳 | Follow for mind-blowing content". Use a clean logo — black background + white text.</div><span class="day-tag tag-setup">⚙️ Setup</span></div></div>
-    <div class="day-card"><div class="day-num">02</div><div><div class="day-title">Post your first 3 facts back to back</div><div class="day-task">Generate 3 reels using this tool. Download the video files. Post all 3 today at 7am, 12pm, and 8pm. Add trending audio from Instagram's library (look for the 🎵 trending arrow).</div><span class="day-tag tag-post">📸 Post</span></div></div>
+    <div class="day-card"><div class="day-num">02</div><div><div class="day-title">Post your first 3 facts back to back</div><div class="day-task">Generate 3 reels using this tool. Download the video files. Post all 3 today at 7am, 12pm, and 8pm. Add trending audio from Instagram's library.</div><span class="day-tag tag-post">📸 Post</span></div></div>
     <div class="day-card"><div class="day-num">03</div><div><div class="day-title">Follow 50 accounts in your niche</div><div class="day-task">Search your niche hashtags. Follow 50 similar accounts. Like and genuinely comment on their recent posts. Many will follow back. This gives your first 20–50 followers. Never use bots.</div><span class="day-tag tag-growth">📈 Growth</span></div></div>
   </div>
-
   <div class="phase-label"><span>PHASE 2 — MOMENTUM</span><span class="phase-line"></span><span style="font-size:12px;color:var(--mut2);white-space:nowrap">Day 4–10</span></div>
   <div class="day-cards">
     <div class="day-card"><div class="day-num">04</div><div><div class="day-title">Post 1 Reel daily — NO exceptions</div><div class="day-task">From today, post exactly 1 Reel every day at 7pm. Use this tool to generate and download your reel video. Add trending audio. Consistency from day 4 separates accounts that grow from accounts that don't.</div><span class="day-tag tag-post">📸 Post daily</span></div></div>
     <div class="day-card"><div class="day-num">07</div><div><div class="day-title">Share best post to WhatsApp groups</div><div class="day-task">Take your best Reel. Share in 10 WhatsApp groups: "Guys yeh fact pata tha kya? 😱 [link]". Ask friends/family to reshare. One viral WhatsApp push = 200–500 new followers overnight.</div><span class="day-tag tag-growth">💬 WhatsApp push</span></div></div>
-    <div class="day-card"><div class="day-num">10</div><div><div class="day-title">Collab with one similar account</div><div class="day-task">Find a page in your niche with 500–5,000 followers. DM: "Want to do a shoutout exchange? You post about me, I post about you." Most say yes. One collab = 50–200 new followers free. Use GrowTogether platform to find collab partners!</div><span class="day-tag tag-growth">🤝 Collab</span></div></div>
+    <div class="day-card"><div class="day-num">10</div><div><div class="day-title">Collab with one similar account</div><div class="day-task">Find a page in your niche with 500–5,000 followers. DM: "Want to do a shoutout exchange? You post about me, I post about you." Most say yes. One collab = 50–200 new followers free.</div><span class="day-tag tag-growth">🤝 Collab</span></div></div>
   </div>
-
   <div class="phase-label"><span>PHASE 3 — ACCELERATE</span><span class="phase-line"></span><span style="font-size:12px;color:var(--mut2);white-space:nowrap">Day 11–15</span></div>
   <div class="day-cards">
     <div class="day-card"><div class="day-num">11</div><div><div class="day-title">Start a series — people follow for next part</div><div class="day-task">Post: "Part 1 of 5 shocking India history facts you were never taught 🔥 Follow to see Part 2 tomorrow". Series posts get 3–5x more follows. Generate all 5 parts at once with this tool.</div><span class="day-tag tag-post">🔥 Series hack</span></div></div>
     <div class="day-card"><div class="day-num">12</div><div><div class="day-title">Cross-post on YouTube Shorts too</div><div class="day-task">Take your best 3 Instagram Reels. Upload same video on YouTube Shorts. YouTube pushes new creators hard — millions of views possible with zero subscribers. Double audience, zero extra work.</div><span class="day-tag tag-growth">▶️ YouTube Shorts</span></div></div>
-    <div class="day-card"><div class="day-num">15</div><div><div class="day-title">Review: 200–1,000 followers now</div><div class="day-task">If you followed this daily, you have 200–1,000 followers. Next goal: 5,000. At 5k: add UPI link in bio, DM brands for paid mentions, join Winkl or Plixxo influencer platforms for paid deals. Use AI Coach tab to get your next plan!</div><span class="day-tag tag-growth">🚀 Milestone</span></div></div>
+    <div class="day-card"><div class="day-num">15</div><div><div class="day-title">Review: 200–1,000 followers now</div><div class="day-task">If you followed this daily, you have 200–1,000 followers. Next goal: 5,000. At 5k: add UPI link in bio, DM brands for paid mentions, join Winkl or Plixxo influencer platforms for paid deals.</div><span class="day-tag tag-growth">🚀 Milestone</span></div></div>
   </div>
 </div>
 
@@ -616,13 +505,15 @@ select option{background:#121220}
 var KEY='', niche='Dark and shocking history of India', platform='instagram', style='shocking and mind-blowing', theme='dark';
 var allCaptions=[], allGeneratedData=[], chatHistory=[], coachContext='';
 var speechSynth=window.speechSynthesis;
+var voiceDuration=45; // default 45 seconds
+
 var THEMES={
-  dark:{bg:['#06060f','#0f0f30','#030308'],a1:'#4a9eff',a2:'#7c6dfa',sub:'#9999cc'},
-  fire:{bg:['#0d0200','#3d0e00','#080100'],a1:'#ff6a00',a2:'#ff3c00',sub:'#ff9966'},
-  forest:{bg:['#010f04','#003d14','#000802'],a1:'#00c47a',a2:'#00ff94',sub:'#66ffbb'},
-  royal:{bg:['#05000d','#180050','#020008'],a1:'#9d4edd',a2:'#c77dff',sub:'#cc99ff'},
-  sunset:{bg:['#0a0015','#3d0045','#050008'],a1:'#f72585',a2:'#ff6eb4',sub:'#ffaadd'},
-  gold:{bg:['#0a0800','#3d2800','#060500'],a1:'#ffd700',a2:'#ffb300',sub:'#ffe680'}
+  dark:{bg:['#06060f','#0f0f30','#030308'],a1:'#4a9eff',a2:'#7c6dfa',sub:'#9999cc',textColor:'#ffffff'},
+  fire:{bg:['#0d0200','#3d0e00','#080100'],a1:'#ff6a00',a2:'#ff3c00',sub:'#ff9966',textColor:'#fff5ee'},
+  forest:{bg:['#010f04','#003d14','#000802'],a1:'#00c47a',a2:'#00ff94',sub:'#66ffbb',textColor:'#f0fff4'},
+  royal:{bg:['#05000d','#180050','#020008'],a1:'#9d4edd',a2:'#c77dff',sub:'#cc99ff',textColor:'#faf0ff'},
+  sunset:{bg:['#0a0015','#3d0045','#050008'],a1:'#f72585',a2:'#ff6eb4',sub:'#ffaadd',textColor:'#fff0f8'},
+  gold:{bg:['#0a0800','#3d2800','#060500'],a1:'#ffd700',a2:'#ffb300',sub:'#ffe680',textColor:'#fffdf0'}
 };
 
 // ═══ GATE ═══
@@ -630,10 +521,11 @@ window.onload=function(){
   var k=localStorage.getItem('ff_key');
   if(k&&k.length>20){KEY=k;document.getElementById('gate').style.display='none';}
   speechSynth.getVoices();
+  setTimeout(function(){speechSynth.getVoices();},500);
 };
 function startApp(){
   var k=document.getElementById('key-inp').value.trim();
-  var ge=document.getElementById('gate-err'); ge.style.display='none';
+  var ge=document.getElementById('gate-err');ge.style.display='none';
   if(!k){ge.textContent='Please paste your Groq API key.';ge.style.display='block';return;}
   if(!k.startsWith('gsk_')){ge.textContent='Key should start with gsk_ — get one free at console.groq.com';ge.style.display='block';return;}
   KEY=k;localStorage.setItem('ff_key',k);document.getElementById('gate').style.display='none';
@@ -653,6 +545,27 @@ function pickN(el){document.querySelectorAll('.ni').forEach(function(e){e.classL
 function pickP(el){document.querySelectorAll('.plat-item').forEach(function(e){e.classList.remove('on');});el.classList.add('on');platform=el.dataset.v;}
 function pickS(el){document.querySelectorAll('#style-row .chip').forEach(function(e){e.classList.remove('on');});el.classList.add('on');style=el.dataset.v;}
 function pickT(el){document.querySelectorAll('.tdot').forEach(function(e){e.classList.remove('on');});el.classList.add('on');theme=el.dataset.v;}
+function pickDur(el,dur){document.querySelectorAll('.dur-btn').forEach(function(e){e.classList.remove('on');});el.classList.add('on');voiceDuration=dur;}
+
+// ═══ BEST HUMAN VOICE SELECTOR ═══
+function getBestVoice(lang){
+  var voices=speechSynth.getVoices();
+  // Priority: premium/natural voices first
+  var premiumNames=['Google UK English Female','Google UK English Male','Google US English','Microsoft Zira','Microsoft David','Microsoft Mark','Samantha','Alex','Victoria','Karen','Daniel','Moira','Rishi','Veena','Lekha'];
+  // Try Indian English first for Hinglish/Hindi
+  if(lang==='Hindi'||lang==='Hinglish (Hindi-English mix)'){
+    var indianVoices=voices.filter(function(v){return v.lang.includes('hi')||v.lang.includes('IN')||v.name.includes('Rishi')||v.name.includes('Veena')||v.name.includes('Lekha')||v.name.includes('India');});
+    if(indianVoices.length>0)return indianVoices[0];
+  }
+  // Try Google voices (most natural)
+  var googleVoice=voices.filter(function(v){return v.name.includes('Google')&&(v.lang.includes('en')||v.lang.includes('IN'));});
+  if(googleVoice.length>0)return googleVoice[0];
+  // Try premium names
+  for(var i=0;i<premiumNames.length;i++){var v=voices.find(function(vv){return vv.name===premiumNames[i];});if(v)return v;}
+  // Fallback: any English voice that's not a robot name
+  var engVoices=voices.filter(function(v){return v.lang.startsWith('en');});
+  return engVoices.length>0?engVoices[0]:voices[0]||null;
+}
 
 // ═══ GENERATE ═══
 async function generate(){
@@ -667,10 +580,11 @@ async function generate(){
   document.getElementById('errbox').style.display='none';
   document.getElementById('results').style.display='none';
 
-  var prompt='Generate exactly '+count+' unique viral social media posts for a '+finalNiche+' page.\nPlatform: '+(isIG?'Instagram Reels':'YouTube Shorts')+'\nTone: '+style+'\nLanguage: '+lang+'\n\nUse EXACTLY this format for EACH post:\n[HEADLINE]\nShort punchy fact title max 10 words in CAPS style\n[VOICE]\nOne paragraph 3-4 sentences for audio narration. Natural spoken language. Include specific fact with real year/number/name. End with wow statement.\n[CAPTION]\n'+(isIG?'Full Instagram caption: 80-100 words, engaging, specific details, ends with question':'YouTube Shorts script: 15-20 seconds spoken, punchy, ends with Subscribe CTA')+'\n[HASHTAGS]\n'+(isIG?'12 relevant Instagram hashtags':'8 relevant YouTube hashtags')+'\n---END---\n\nFacts must be TRUE and SPECIFIC. Genuinely surprising. Write ALL '+count+' posts now.';
+  // Ask for LONGER voice content — 150-200 words for 45 sec, 200-250 for 60 sec
+  var prompt='Generate exactly '+count+' unique viral social media posts for a '+finalNiche+' page.\nPlatform: '+(isIG?'Instagram Reels':'YouTube Shorts')+'\nTone: '+style+'\nLanguage: '+lang+'\n\nIMPORTANT: The VOICE section must be 180-220 words long — detailed narration suitable for a 45-60 second video. Write it as natural spoken storytelling, like a documentary narrator. Include specific facts, names, dates, numbers. Make it engaging from start to finish with a dramatic hook and strong ending.\n\nUse EXACTLY this format for EACH post:\n[HEADLINE]\nShort punchy fact title max 10 words in CAPS style\n[VOICE]\nLong detailed narration 180-220 words. Natural spoken language. Start with a shocking hook. Include specific facts with real years/numbers/names. Tell the full story. End with a mind-blowing conclusion.\n[CAPTION]\n'+(isIG?'Full Instagram caption: 100-120 words, engaging, specific details, ends with question':'YouTube Shorts description: 80-100 words, punchy, ends with Subscribe CTA')+'\n[HASHTAGS]\n'+(isIG?'15 relevant Instagram hashtags':'10 relevant YouTube hashtags')+'\n---END---\n\nFacts must be TRUE and SPECIFIC. Write ALL '+count+' posts now.';
 
   try{
-    var res=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:3000,temperature:0.8,messages:[{role:'user',content:prompt}]})});
+    var res=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:4500,temperature:0.8,messages:[{role:'user',content:prompt}]})});
     var data=await res.json();
     if(data.error){if(res.status===401)throw new Error('Invalid API key.');if(res.status===429)throw new Error('Rate limit — wait 1 minute.');throw new Error(data.error.message||'API error.');}
     var raw=data.choices[0].message.content;
@@ -685,7 +599,7 @@ async function generate(){
       var full=caption+'\n\n'+hashtags;
       allCaptions.push(full);
       allGeneratedData.push({headline,voice,caption:full});
-      list.appendChild(buildCard(headline,voice,full,i,isIG));
+      list.appendChild(buildCard(headline,voice,full,i,isIG,lang));
     });
     var tags=allCaptions.reduce(function(a,c){return a+(c.match(/#\w+/g)||[]).length;},0);
     document.getElementById('m1').textContent=parts.length;
@@ -704,68 +618,96 @@ function extract(text,tag){
 }
 
 // ═══ BUILD CARD ═══
-function buildCard(headline,voice,fullCaption,idx,isIG){
+function buildCard(headline,voice,fullCaption,idx,isIG,lang){
   var card=document.createElement('div');card.className='pcard';
 
-  // VIDEO REEL SECTION
+  // VIDEO SECTION
   var vidSec=document.createElement('div');vidSec.className='video-section';
+
   var vidLabel=document.createElement('div');vidLabel.className='video-label';
-  vidLabel.innerHTML='🎬 REEL VIDEO — Day '+(idx+1)+' — Download & Post';
+  vidLabel.innerHTML='🎬 REEL VIDEO — Post '+(idx+1);
   vidSec.appendChild(vidLabel);
+
+  // Duration selector
+  var durSec=document.createElement('div');durSec.innerHTML='<div style="font-size:11px;color:var(--mut2);margin-bottom:6px;font-weight:600;">Video duration:</div>';
+  var durRow=document.createElement('div');durRow.className='dur-select';
+  var durs=[{l:'30 sec',v:30},{l:'45 sec',v:45},{l:'60 sec',v:60}];
+  var selectedDur=45;
+  durs.forEach(function(d){
+    var b=document.createElement('button');b.className='dur-btn'+(d.v===45?' on':'');b.textContent=d.l;
+    b.onclick=function(){durRow.querySelectorAll('.dur-btn').forEach(function(x){x.classList.remove('on');});b.classList.add('on');selectedDur=d.v;startReelAnimation(reelCanvas,headline,voice,selectedDur,theme);};
+    durRow.appendChild(b);
+  });
+  durSec.appendChild(durRow);vidSec.appendChild(durSec);
 
   var vidContainer=document.createElement('div');vidContainer.className='video-container';
   var reelCanvas=document.createElement('canvas');reelCanvas.className='video-canvas';
   reelCanvas.width=540;reelCanvas.height=960;
-  vidContainer.appendChild(reelCanvas);
-  vidSec.appendChild(vidContainer);
+  vidContainer.appendChild(reelCanvas);vidSec.appendChild(vidContainer);
 
-  // Start animation preview immediately
-  startReelAnimation(reelCanvas,headline,idx+1,theme,voice);
+  // Start animation
+  startReelAnimation(reelCanvas,headline,voice,45,theme);
 
-  var vidBtns=document.createElement('div');vidBtns.className='video-btns';
-
-  var dlBtn=document.createElement('button');dlBtn.className='vbtn primary';dlBtn.innerHTML='⬇️ Download Reel Video';
   var renderProg=document.createElement('div');renderProg.className='render-prog';
   var renderFill=document.createElement('div');renderFill.className='render-fill';
   renderProg.appendChild(renderFill);
+  var renderStatus=document.createElement('div');renderStatus.className='render-status';
 
+  var vidBtns=document.createElement('div');vidBtns.className='video-btns';
+
+  var dlBtn=document.createElement('button');dlBtn.className='vbtn primary';dlBtn.innerHTML='⬇️ Download Reel (WebM)';
   dlBtn.onclick=function(){
-    dlBtn.disabled=true;dlBtn.textContent='⏳ Rendering...';
-    renderProg.style.display='block';
-    renderVideo(reelCanvas,headline,voice,idx+1,theme,renderFill,function(){
-      dlBtn.disabled=false;dlBtn.innerHTML='⬇️ Download Reel Video';
-      renderProg.style.display='none';
+    dlBtn.disabled=true;dlBtn.textContent='⏳ Rendering '+selectedDur+'s...';
+    renderProg.style.display='block';renderStatus.style.display='block';
+    renderVideo(reelCanvas,headline,voice,idx+1,theme,selectedDur,renderFill,renderStatus,function(){
+      dlBtn.disabled=false;dlBtn.innerHTML='⬇️ Download Reel (WebM)';
+      renderProg.style.display='none';renderStatus.style.display='none';
     });
   };
 
   var saveImgBtn=document.createElement('button');saveImgBtn.className='vbtn';saveImgBtn.innerHTML='🖼️ Save Image';
   saveImgBtn.onclick=function(){
-    var a=document.createElement('a');a.download='factflow-day'+(idx+1)+'.png';a.href=reelCanvas.toDataURL('image/png');a.click();
+    var a=document.createElement('a');a.download='factflow-post'+(idx+1)+'.png';a.href=reelCanvas.toDataURL('image/png');a.click();
   };
 
   vidBtns.appendChild(dlBtn);vidBtns.appendChild(saveImgBtn);
-  vidSec.appendChild(vidBtns);vidSec.appendChild(renderProg);
+  vidSec.appendChild(vidBtns);vidSec.appendChild(renderProg);vidSec.appendChild(renderStatus);
   card.appendChild(vidSec);
 
-  // AUDIO BAR
+  // VOICE NOTE
+  var vNote=document.createElement('div');vNote.className='voice-note';
+  vNote.textContent='💡 For best voice: use Chrome on desktop — Google voices are most natural. Mobile may use device voice.';
+  card.appendChild(vNote);
+
+  // AUDIO BAR — Human Voice
   var bar=document.createElement('div');bar.className='audio-bar';
   var playBtn=document.createElement('button');playBtn.className='play-btn';playBtn.textContent='▶';
-  var speaking=false;
+  var speaking=false;var currentUtt=null;
   playBtn.onclick=function(){
-    if(speaking){speechSynth.cancel();speaking=false;playBtn.textContent='▶';progFill.style.width='0%';return;}
+    if(speaking){speechSynth.cancel();speaking=false;playBtn.textContent='▶';progFill.style.width='0%';clearInterval(progTimer);return;}
     var utt=new SpeechSynthesisUtterance(voice);
-    utt.rate=0.88;utt.pitch=1.05;utt.lang='en-IN';
-    var voices=speechSynth.getVoices();
-    var preferred=voices.filter(function(v){return v.lang.includes('IN')||v.name.includes('India')||v.name.includes('Rishi');});
-    if(preferred.length>0)utt.voice=preferred[0];
-    utt.onstart=function(){speaking=true;playBtn.textContent='■';};
-    utt.onend=function(){speaking=false;playBtn.textContent='▶';progFill.style.width='100%';setTimeout(function(){progFill.style.width='0%';},800);};
-    var wc=voice.split(' ').length,dur=wc/2.5*1000,start=Date.now();
-    var timer=setInterval(function(){if(!speaking){clearInterval(timer);return;}progFill.style.width=Math.min(100,(Date.now()-start)/dur*100)+'%';},100);
+    // Natural human-like settings — NOT robotic
+    utt.rate=0.82;        // Slightly slower than normal = more natural storytelling pace
+    utt.pitch=1.0;        // Natural pitch, no modulation
+    utt.volume=1.0;
+    if(lang==='Hindi'){utt.lang='hi-IN';}
+    else if(lang==='Hinglish (Hindi-English mix)'){utt.lang='en-IN';}
+    else{utt.lang='en-IN';}   // en-IN for Indian accent
+    var bestVoice=getBestVoice(lang);
+    if(bestVoice){utt.voice=bestVoice;}
+    currentUtt=utt;
+    var wordCount=voice.split(' ').length;
+    var estDur=wordCount/2.2*1000; // ~2.2 words/sec at rate 0.82
+    var startTime=Date.now();
+    var progTimer;
+    utt.onstart=function(){speaking=true;playBtn.textContent='■';aiInfo.querySelector('.audio-sub').textContent='Speaking... ('+Math.round(wordCount/2.2)+'s est.)';
+      progTimer=setInterval(function(){if(!speaking){clearInterval(progTimer);return;}progFill.style.width=Math.min(98,(Date.now()-startTime)/estDur*100)+'%';},200);};
+    utt.onend=function(){speaking=false;playBtn.textContent='▶';progFill.style.width='100%';clearInterval(progTimer);aiInfo.querySelector('.audio-sub').textContent='Play full narration aloud';setTimeout(function(){progFill.style.width='0%';},1500);};
+    utt.onerror=function(){speaking=false;playBtn.textContent='▶';clearInterval(progTimer);};
     speechSynth.speak(utt);
   };
   var aiInfo=document.createElement('div');aiInfo.className='audio-info';
-  aiInfo.innerHTML='<div class="audio-title">🎙️ AI Voice Narration — Day '+(idx+1)+'</div><div class="audio-sub">Play to hear the fact read aloud</div>';
+  aiInfo.innerHTML='<div class="audio-title">🗣️ Human AI Voice — Post '+(idx+1)+'</div><div class="audio-sub">Play full narration aloud</div>';
   var progW=document.createElement('div');progW.className='audio-prog-wrap';
   var progFill=document.createElement('div');progFill.className='audio-prog-fill';
   progW.appendChild(progFill);
@@ -775,7 +717,7 @@ function buildCard(headline,voice,fullCaption,idx,isIG){
   // POST BODY
   var body=document.createElement('div');body.className='pbody';
   var head=document.createElement('div');head.className='phead';
-  head.innerHTML='<span class="pday">DAY '+(idx+1)+'</span><span class="pfmt">'+(isIG?'📸 Instagram Reel':'▶️ YouTube Short')+'</span>';
+  head.innerHTML='<span class="pday">POST '+(idx+1)+'</span><span class="pfmt">'+(isIG?'📸 Instagram Reel':'▶️ YouTube Short')+'</span>';
   body.appendChild(head);
   var cap=document.createElement('div');cap.className='pcap';cap.textContent=fullCaption;
   var exp=document.createElement('span');exp.className='expand-lnk';exp.textContent='Show more ↓';
@@ -793,177 +735,206 @@ function buildCard(headline,voice,fullCaption,idx,isIG){
   card.appendChild(acts);
   return card;
 }
-
 function makeBtn(lbl,cls,fn){var b=document.createElement('button');b.className=cls;b.textContent=lbl;b.onclick=fn;return b;}
 
-// ═══ REEL ANIMATION ═══
-var animFrames={};
-function startReelAnimation(canvas,headline,day,themeName,voice){
-  var cid=canvas._animId=Math.random();
+// ═══ WRAP TEXT UTILITY ═══
+function wrapText(ctx,text,maxW,font){
+  ctx.font=font;
+  var words=text.split(' '),lines=[],cur='';
+  words.forEach(function(w){var t2=cur?cur+' '+w:w;if(ctx.measureText(t2).width>maxW&&cur){lines.push(cur);cur=w;}else cur=t2;});
+  if(cur)lines.push(cur);
+  return lines;
+}
+
+// ═══ DRAW STATIC REEL FRAME ═══
+// Draws the full fact text centered and static in the middle of the canvas
+function drawReelFrame(ctx,W,H,headline,voiceText,themeName,frameNum,totalFrames){
+  var t=THEMES[themeName]||THEMES.dark;
+
+  // Background gradient
+  var bg=ctx.createLinearGradient(0,0,W,H);
+  bg.addColorStop(0,t.bg[0]);bg.addColorStop(0.5,t.bg[1]);bg.addColorStop(1,t.bg[2]);
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+
+  // Subtle animated particles (just glow, not distracting)
+  ctx.save();
+  for(var i=0;i<8;i++){
+    var px=(Math.sin(frameNum*0.01+i*1.2)*0.4+0.5)*W;
+    var py=(Math.cos(frameNum*0.008+i*0.9)*0.4+0.5)*H;
+    var pr=80+Math.sin(frameNum*0.02+i)*20;
+    var pg=ctx.createRadialGradient(px,py,0,px,py,pr);
+    pg.addColorStop(0,t.a1+'18');pg.addColorStop(1,'transparent');
+    ctx.fillStyle=pg;ctx.beginPath();ctx.arc(px,py,pr,0,Math.PI*2);ctx.fill();
+  }
+  ctx.restore();
+
+  // Top accent bar
+  var topG=ctx.createLinearGradient(0,0,W,0);topG.addColorStop(0,t.a1);topG.addColorStop(1,t.a2);
+  ctx.fillStyle=topG;ctx.fillRect(0,0,W,6);
+
+  // Brand watermark (small, top right)
+  ctx.fillStyle='rgba(255,255,255,0.25)';
+  ctx.font='500 13px Plus Jakarta Sans,system-ui';
+  ctx.textAlign='right';
+  ctx.fillText('FactFlow AI',W-24,38);
+
+  // ── HEADLINE in center-top area ──
+  ctx.textAlign='center';
+  var headFont='bold 44px Plus Jakarta Sans,system-ui';
+  var headLines=wrapText(ctx,headline.toUpperCase(),W-80,headFont);
+  var headLH=52;
+  var headTotalH=headLines.length*headLH;
+  var headY=H*0.22;
+
+  // Headline glow background
+  ctx.save();
+  var fadeIn=Math.min(1,frameNum/20);
+  var hbg=ctx.createLinearGradient(0,headY-headTotalH-16,0,headY+20);
+  hbg.addColorStop(0,'rgba(0,0,0,0)');hbg.addColorStop(0.3,'rgba(0,0,0,0.5)');hbg.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=hbg;ctx.fillRect(0,headY-headTotalH-20,W,headTotalH+50);
+  headLines.forEach(function(line,i){
+    var tg=ctx.createLinearGradient(W*0.1,0,W*0.9,0);tg.addColorStop(0,t.a1);tg.addColorStop(0.5,t.a2);tg.addColorStop(1,t.a1);
+    ctx.fillStyle=tg;ctx.globalAlpha=fadeIn;ctx.font=headFont;
+    ctx.fillText(line,W/2,headY+(i-headLines.length/2+0.5)*headLH);
+  });
+  ctx.globalAlpha=1;ctx.restore();
+
+  // Divider line
+  var lineProgress=Math.min(1,(frameNum-10)/30);
+  var lineW=(W-80)*lineProgress;
+  if(lineW>0){
+    var dl=ctx.createLinearGradient(W/2-lineW/2,0,W/2+lineW/2,0);
+    dl.addColorStop(0,'transparent');dl.addColorStop(0.3,t.a1+'80');dl.addColorStop(0.7,t.a2+'80');dl.addColorStop(1,'transparent');
+    ctx.strokeStyle=dl;ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(W/2-lineW/2,H*0.33);ctx.lineTo(W/2+lineW/2,H*0.33);ctx.stroke();
+  }
+
+  // ── FULL VOICE TEXT — centered, static, readable ──
+  // This is the main content — show the complete text clearly in center
+  ctx.save();
+  ctx.textAlign='center';
+  var textFont='500 19px Plus Jakarta Sans,system-ui';
+  ctx.font=textFont;
+  var textMaxW=W-64;
+  var allLines=wrapText(ctx,voiceText,textMaxW,textFont);
+  var textLH=30;
+  var textStartY=H*0.37;
+  var maxLinesVisible=Math.floor((H*0.52)/textLH); // how many lines fit in the content zone
+
+  // Draw semi-transparent text background panel
+  var panelH=Math.min(allLines.length,maxLinesVisible)*textLH+32;
+  ctx.fillStyle='rgba(0,0,0,0.45)';
+  ctx.beginPath();
+  if(ctx.roundRect){ctx.roundRect(28,textStartY-20,W-56,panelH+10,12);}
+  else{ctx.rect(28,textStartY-20,W-56,panelH+10);}
+  ctx.fill();
+
+  // Draw all text lines (scrolling through if too long)
+  var scrollProgress=totalFrames>1?frameNum/(totalFrames-1):0;
+  var maxScroll=Math.max(0,allLines.length-maxLinesVisible);
+  var scrollOffset=Math.floor(scrollProgress*maxScroll);
+
+  var visibleLines=allLines.slice(scrollOffset,scrollOffset+maxLinesVisible);
+  var textFadeIn=Math.min(1,(frameNum-15)/25);
+
+  visibleLines.forEach(function(line,i){
+    ctx.globalAlpha=textFadeIn*(1-i/(maxLinesVisible*1.3));
+    ctx.fillStyle=t.textColor||'#ffffff';
+    ctx.font=textFont;
+    ctx.fillText(line,W/2,textStartY+i*textLH+8);
+  });
+  ctx.globalAlpha=1;
+
+  // Scroll indicator if text is long
+  if(allLines.length>maxLinesVisible){
+    ctx.fillStyle='rgba(255,255,255,0.3)';
+    ctx.font='11px Plus Jakarta Sans,system-ui';
+    ctx.textAlign='center';
+    ctx.fillText('▼ '+(scrollOffset+maxLinesVisible)+'/'+allLines.length+' lines',W/2,textStartY+panelH+2);
+  }
+  ctx.restore();
+
+  // Bottom gradient overlay
+  var btmG=ctx.createLinearGradient(0,H*0.85,0,H);
+  btmG.addColorStop(0,'rgba(0,0,0,0)');btmG.addColorStop(1,'rgba(0,0,0,0.9)');
+  ctx.fillStyle=btmG;ctx.fillRect(0,H*0.85,W,H*0.15);
+
+  // Bottom CTA
+  ctx.fillStyle='rgba(255,255,255,0.65)';
+  ctx.font='bold 17px Plus Jakarta Sans,system-ui';
+  ctx.textAlign='center';
+  ctx.fillText('Follow for daily facts ✦',W/2,H-32);
+
+  // Progress bar at very bottom
+  var progPct=totalFrames>1?frameNum/(totalFrames-1):0;
+  ctx.fillStyle='rgba(255,255,255,0.1)';ctx.fillRect(0,H-6,W,6);
+  var pbg=ctx.createLinearGradient(0,0,W*progPct,0);pbg.addColorStop(0,t.a1);pbg.addColorStop(1,t.a2);
+  ctx.fillStyle=pbg;ctx.fillRect(0,H-6,W*progPct,6);
+
+  // Bottom accent bar
+  ctx.fillStyle=topG;ctx.fillRect(0,H-3,W,3);
+}
+
+// ═══ REEL ANIMATION — preview ═══
+var animIds={};
+function startReelAnimation(canvas,headline,voiceText,durationSec,themeName){
+  canvas._animId=(canvas._animId||0)+1;
+  var myId=canvas._animId;
   var ctx=canvas.getContext('2d');
   var W=canvas.width,H=canvas.height;
-  var t=THEMES[themeName]||THEMES.dark;
+  var fps=24;
+  var totalFrames=durationSec*fps;
   var frame=0;
-  var words=voice.split(' ');
-  var wordIdx=0;
 
-  function drawFrame(){
-    if(canvas._animId!==cid)return;
-    frame++;
-    var bg=ctx.createLinearGradient(0,0,W,H);
-    bg.addColorStop(0,t.bg[0]);bg.addColorStop(.5,t.bg[1]);bg.addColorStop(1,t.bg[2]);
-    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
-
-    // Animated particles
-    ctx.save();
-    for(var i=0;i<12;i++){
-      var x=(Math.sin(frame*0.02+i*0.8)*0.5+0.5)*W;
-      var y=(Math.cos(frame*0.015+i*1.1)*0.5+0.5)*H;
-      var r=2+Math.sin(frame*0.03+i)*1.5;
-      var g2=ctx.createRadialGradient(x,y,0,x,y,r*8);
-      g2.addColorStop(0,t.a1+'60');g2.addColorStop(1,'transparent');
-      ctx.fillStyle=g2;ctx.beginPath();ctx.arc(x,y,r*8,0,Math.PI*2);ctx.fill();
-    }
-    ctx.restore();
-
-    // Glowing grid lines
-    ctx.save();ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=1;
-    for(var x2=0;x2<W;x2+=54){ctx.beginPath();ctx.moveTo(x2,0);ctx.lineTo(x2,H);ctx.stroke();}
-    for(var y2=0;y2<H;y2+=54){ctx.beginPath();ctx.moveTo(0,y2);ctx.lineTo(W,y2);ctx.stroke();}
-    ctx.restore();
-
-    // Top bar glow
-    var topG=ctx.createLinearGradient(0,0,W,0);topG.addColorStop(0,t.a1);topG.addColorStop(1,t.a2);
-    ctx.fillStyle=topG;ctx.fillRect(0,0,W,6);
-
-    // Pulsing accent circle
-    ctx.save();
-    var pulse=Math.sin(frame*0.04)*0.3+0.7;
-    var cg=ctx.createRadialGradient(W/2,H*0.38,0,W/2,H*0.38,W*0.55*pulse);
-    cg.addColorStop(0,t.a1+'25');cg.addColorStop(.5,t.a2+'10');cg.addColorStop(1,'transparent');
-    ctx.fillStyle=cg;ctx.fillRect(0,0,W,H);
-    ctx.restore();
-
-    // DAY badge
-    ctx.save();ctx.fillStyle='rgba(255,255,255,0.08)';ctx.beginPath();ctx.roundRect(32,36,90,32,16);ctx.fill();
-    ctx.fillStyle=t.a1;ctx.font='bold 14px Plus Jakarta Sans,system-ui';ctx.textAlign='center';ctx.fillText('DAY '+day,77,57);ctx.restore();
-
-    // Brand name
-    ctx.fillStyle='rgba(255,255,255,0.4)';ctx.font='500 14px Plus Jakarta Sans,system-ui';ctx.textAlign='right';ctx.fillText('FactFlow AI',W-32,57);
-
-    // Animated separator line
-    var lineW=Math.min(W-64,(frame*8));
-    var dl=ctx.createLinearGradient(32,0,32+lineW,0);dl.addColorStop(0,'transparent');dl.addColorStop(.3,t.a1+'90');dl.addColorStop(.7,t.a2+'90');dl.addColorStop(1,'transparent');
-    ctx.strokeStyle=dl;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(32,96);ctx.lineTo(32+lineW,96);ctx.stroke();
-
-    // Headline with shimmer
-    ctx.save();ctx.textAlign='center';
-    var headLines=wrapText(ctx,headline.toUpperCase(),W-64,'bold 52px Plus Jakarta Sans,system-ui');
-    var lh=62,totalH=headLines.length*lh,sy=H*0.38-totalH/2+20;
-    var shimmer=(Math.sin(frame*0.03)*0.5+0.5);
-    headLines.forEach(function(line,i){
-      var offset=Math.max(0,(frame-i*8)*3);var alpha=Math.min(1,offset/60);
-      var tg=ctx.createLinearGradient(W*shimmer-W,0,W*shimmer,0);
-      tg.addColorStop(0,t.a1);tg.addColorStop(.5,t.a2);tg.addColorStop(1,t.a1);
-      ctx.fillStyle=tg;ctx.globalAlpha=alpha;ctx.font='bold 52px Plus Jakarta Sans,system-ui';
-      ctx.fillText(line,W/2,sy+i*lh);
-    });
-    ctx.restore();
-
-    // Scrolling word highlight (simulates teleprompter)
-    if(frame%18===0&&wordIdx<words.length)wordIdx=Math.min(wordIdx+1,words.length-1);
-    var visibleWords=words.slice(Math.max(0,wordIdx-3),wordIdx+4);
-    var voiceText=visibleWords.join(' ');
-    ctx.save();
-    var btmBg=ctx.createLinearGradient(0,H*0.72,0,H*0.88);btmBg.addColorStop(0,'transparent');btmBg.addColorStop(1,'rgba(0,0,0,0.85)');
-    ctx.fillStyle=btmBg;ctx.fillRect(0,H*0.72,W,H*0.16);
-    ctx.textAlign='center';ctx.fillStyle='rgba(255,255,255,0.9)';ctx.font='500 20px Plus Jakarta Sans,system-ui';
-    wrapText(ctx,voiceText,W-64,'500 20px Plus Jakarta Sans,system-ui').slice(0,3).forEach(function(l,i){ctx.fillText(l,W/2,H*0.76+i*26);});
-    ctx.restore();
-
-    // Animated progress bar at bottom
-    var progPct=(frame%240)/240;
-    ctx.fillStyle='rgba(255,255,255,0.1)';ctx.fillRect(0,H-8,W,8);
-    var pbg=ctx.createLinearGradient(0,0,W*progPct,0);pbg.addColorStop(0,t.a1);pbg.addColorStop(1,t.a2);
-    ctx.fillStyle=pbg;ctx.fillRect(0,H-8,W*progPct,8);
-
-    // Follow CTA
-    var ctaBg=ctx.createLinearGradient(0,H*0.88,0,H-14);ctaBg.addColorStop(0,'rgba(0,0,0,0)');ctaBg.addColorStop(1,'rgba(0,0,0,0.8)');
-    ctx.fillStyle=ctaBg;ctx.fillRect(0,H*0.88,W,H*0.12-14);
-    ctx.fillStyle=topG;ctx.fillRect(0,H-5,W,5);
-    ctx.fillStyle='rgba(255,255,255,0.6)';ctx.font='500 18px Plus Jakarta Sans,system-ui';ctx.textAlign='center';
-    ctx.fillText('Follow for daily facts ✦',W/2,H-22);
-
-    requestAnimationFrame(drawFrame);
+  function loop(){
+    if(canvas._animId!==myId)return;
+    drawReelFrame(ctx,W,H,headline,voiceText,themeName,frame,totalFrames);
+    frame=(frame+1)%totalFrames;
+    requestAnimationFrame(loop);
   }
-  drawFrame();
+  loop();
 }
 
 // ═══ RENDER VIDEO ═══
-function renderVideo(canvas,headline,voice,day,themeName,progressFill,onDone){
+function renderVideo(canvas,headline,voiceText,postNum,themeName,durationSec,progressFill,statusEl,onDone){
   var W=canvas.width,H=canvas.height;
   var offCanvas=document.createElement('canvas');offCanvas.width=W;offCanvas.height=H;
   var offCtx=offCanvas.getContext('2d');
-  var t=THEMES[themeName]||THEMES.dark;
-  var chunks=[],totalFrames=180,fps=30;
+
+  var fps=30;
+  var totalFrames=durationSec*fps;
+  var chunks=[];
+
+  // Use the best available codec
+  var mimeType='video/webm;codecs=vp9';
+  if(!MediaRecorder.isTypeSupported(mimeType))mimeType='video/webm;codecs=vp8';
+  if(!MediaRecorder.isTypeSupported(mimeType))mimeType='video/webm';
+
   var stream=offCanvas.captureStream(fps);
-  var rec=new MediaRecorder(stream,{mimeType:MediaRecorder.isTypeSupported('video/webm;codecs=vp9')?'video/webm;codecs=vp9':'video/webm',videoBitsPerSecond:4000000});
+  var rec=new MediaRecorder(stream,{mimeType:mimeType,videoBitsPerSecond:5000000});
   rec.ondataavailable=function(e){if(e.data.size>0)chunks.push(e.data);};
   rec.onstop=function(){
     var blob=new Blob(chunks,{type:'video/webm'});
     var url=URL.createObjectURL(blob);
-    var a=document.createElement('a');a.href=url;a.download='factflow-reel-day'+day+'.webm';a.click();
-    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    var a=document.createElement('a');a.href=url;a.download='factflow-reel-post'+postNum+'-'+durationSec+'s.webm';a.click();
+    setTimeout(function(){URL.revokeObjectURL(url);},2000);
     onDone();
   };
-  rec.start();
-  var f=0,words=voice.split(' '),wordIdx=0;
+  rec.start(100);
+
+  var f=0;
   function renderF(){
     if(f>=totalFrames){rec.stop();return;}
-    progressFill.style.width=(f/totalFrames*100)+'%';
-    f++;if(f%18===0&&wordIdx<words.length)wordIdx=Math.min(wordIdx+1,words.length-1);
-    var bg=offCtx.createLinearGradient(0,0,W,H);
-    bg.addColorStop(0,t.bg[0]);bg.addColorStop(.5,t.bg[1]);bg.addColorStop(1,t.bg[2]);
-    offCtx.fillStyle=bg;offCtx.fillRect(0,0,W,H);
-    // particles
-    for(var i=0;i<12;i++){var px=(Math.sin(f*0.02+i*0.8)*0.5+0.5)*W,py=(Math.cos(f*0.015+i*1.1)*0.5+0.5)*H,pr=2+Math.sin(f*0.03+i)*1.5;var pg2=offCtx.createRadialGradient(px,py,0,px,py,pr*8);pg2.addColorStop(0,t.a1+'60');pg2.addColorStop(1,'transparent');offCtx.fillStyle=pg2;offCtx.beginPath();offCtx.arc(px,py,pr*8,0,Math.PI*2);offCtx.fill();}
-    // grid
-    offCtx.strokeStyle='rgba(255,255,255,0.03)';offCtx.lineWidth=1;
-    for(var gx=0;gx<W;gx+=54){offCtx.beginPath();offCtx.moveTo(gx,0);offCtx.lineTo(gx,H);offCtx.stroke();}
-    for(var gy=0;gy<H;gy+=54){offCtx.beginPath();offCtx.moveTo(0,gy);offCtx.lineTo(W,gy);offCtx.stroke();}
-    // top bar
-    var tg=offCtx.createLinearGradient(0,0,W,0);tg.addColorStop(0,t.a1);tg.addColorStop(1,t.a2);
-    offCtx.fillStyle=tg;offCtx.fillRect(0,0,W,6);
-    // badges
-    offCtx.fillStyle='rgba(255,255,255,0.08)';offCtx.beginPath();offCtx.roundRect(32,36,90,32,16);offCtx.fill();
-    offCtx.fillStyle=t.a1;offCtx.font='bold 14px Plus Jakarta Sans,system-ui';offCtx.textAlign='center';offCtx.fillText('DAY '+day,77,57);
-    offCtx.fillStyle='rgba(255,255,255,0.4)';offCtx.font='500 14px Plus Jakarta Sans,system-ui';offCtx.textAlign='right';offCtx.fillText('FactFlow AI',W-32,57);
-    // separator
-    var lw=Math.min(W-64,f*8),dl=offCtx.createLinearGradient(32,0,32+lw,0);dl.addColorStop(0,'transparent');dl.addColorStop(.3,t.a1+'90');dl.addColorStop(.7,t.a2+'90');dl.addColorStop(1,'transparent');
-    offCtx.strokeStyle=dl;offCtx.lineWidth=1.5;offCtx.beginPath();offCtx.moveTo(32,96);offCtx.lineTo(32+lw,96);offCtx.stroke();
-    // headline
-    offCtx.textAlign='center';var hl=wrapText(offCtx,headline.toUpperCase(),W-64,'bold 52px Plus Jakarta Sans,system-ui');var lh=62,sy=H*0.38-hl.length*lh/2+20,shimmer=(Math.sin(f*0.03)*0.5+0.5);
-    hl.forEach(function(line,i){var offset=Math.max(0,(f-i*8)*3),alpha=Math.min(1,offset/60);var htg=offCtx.createLinearGradient(W*shimmer-W,0,W*shimmer,0);htg.addColorStop(0,t.a1);htg.addColorStop(.5,t.a2);htg.addColorStop(1,t.a1);offCtx.fillStyle=htg;offCtx.globalAlpha=alpha;offCtx.font='bold 52px Plus Jakarta Sans,system-ui';offCtx.fillText(line,W/2,sy+i*lh);});offCtx.globalAlpha=1;
-    // word scroll
-    var vw=words.slice(Math.max(0,wordIdx-3),wordIdx+4).join(' ');
-    var btmBg=offCtx.createLinearGradient(0,H*0.72,0,H*0.88);btmBg.addColorStop(0,'transparent');btmBg.addColorStop(1,'rgba(0,0,0,0.85)');
-    offCtx.fillStyle=btmBg;offCtx.fillRect(0,H*0.72,W,H*0.16);
-    offCtx.textAlign='center';offCtx.fillStyle='rgba(255,255,255,0.9)';offCtx.font='500 20px Plus Jakarta Sans,system-ui';
-    wrapText(offCtx,vw,W-64,'500 20px Plus Jakarta Sans,system-ui').slice(0,3).forEach(function(l,i){offCtx.fillText(l,W/2,H*0.76+i*26);});
-    // progress bar
-    var pp=f/totalFrames;offCtx.fillStyle='rgba(255,255,255,0.1)';offCtx.fillRect(0,H-8,W,8);var pbg=offCtx.createLinearGradient(0,0,W*pp,0);pbg.addColorStop(0,t.a1);pbg.addColorStop(1,t.a2);offCtx.fillStyle=pbg;offCtx.fillRect(0,H-8,W*pp,8);
-    // bottom
-    var ctaBg=offCtx.createLinearGradient(0,H*0.88,0,H-14);ctaBg.addColorStop(0,'rgba(0,0,0,0)');ctaBg.addColorStop(1,'rgba(0,0,0,0.8)');
-    offCtx.fillStyle=ctaBg;offCtx.fillRect(0,H*0.88,W,H*0.12-14);
-    offCtx.fillStyle=tg;offCtx.fillRect(0,H-5,W,5);
-    offCtx.fillStyle='rgba(255,255,255,0.6)';offCtx.font='500 18px Plus Jakarta Sans,system-ui';offCtx.textAlign='center';offCtx.fillText('Follow for daily facts ✦',W/2,H-22);
+    var pct=Math.round(f/totalFrames*100);
+    progressFill.style.width=pct+'%';
+    if(statusEl)statusEl.textContent='Rendering frame '+f+' / '+totalFrames+' ('+pct+'%)';
+    drawReelFrame(offCtx,W,H,headline,voiceText,themeName,f,totalFrames);
+    f++;
+    // Use setTimeout to avoid blocking UI
     setTimeout(renderF,1000/fps);
   }
   renderF();
 }
-
-// ═══ WRAP TEXT ═══
-function wrapText(ctx,text,maxW,font){ctx.font=font;var words=text.split(' '),lines=[],cur='';words.forEach(function(w){var t2=cur?cur+' '+w:w;if(ctx.measureText(t2).width>maxW&&cur){lines.push(cur);cur=w;}else cur=t2;});if(cur)lines.push(cur);return lines;}
 
 function copyAll(){var text=allCaptions.map(function(c,i){return '=== POST '+(i+1)+' ===\n'+c;}).join('\n\n');navigator.clipboard.writeText(text).catch(function(){});var b=event.currentTarget,o=b.textContent;b.textContent='✅ All copied!';setTimeout(function(){b.textContent=o;},2000);}
 function showErr(msg){var e=document.getElementById('errbox');e.textContent=msg;e.style.display='block';}
@@ -978,14 +949,10 @@ async function analyzeStats(){
   var frequency=document.getElementById('coach-frequency').value;
   var nicheV=document.getElementById('coach-niche').value||'facts page';
   var problem=document.getElementById('coach-problem').value||'not sure what to do next';
-
   var btn=document.getElementById('analyze-btn');
   btn.disabled=true;btn.textContent='🤖 Analyzing your stats...';
-
   coachContext='Creator profile:\n- Platform: '+platform2+'\n- Followers/Subscribers: '+followers+'\n- Avg Views per post: '+views+'\n- Avg Likes per post: '+likes+'\n- Posting duration: '+duration+'\n- Posting frequency: '+frequency+'\n- Niche: '+nicheV+'\n- Main problem: '+problem;
-
   var prompt=coachContext+'\n\nYou are an expert Indian social media growth coach. Analyze these stats and give:\n1. A direct assessment of where they are right now (1-2 lines, be honest even if results are poor)\n2. Exactly 4 specific action steps they should take THIS WEEK, numbered, each with a specific action and why\n3. One "quick win" they can do TODAY in 30 minutes to see results fast\n4. A realistic goal for next 30 days based on their current trajectory\n\nBe direct, specific, encouraging but honest. Mention specific numbers. No fluff. Write in a coaching tone. Keep total response under 350 words.';
-
   try{
     var res=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:600,temperature:0.7,messages:[{role:'user',content:prompt}]})});
     var data=await res.json();
@@ -996,48 +963,36 @@ async function analyzeStats(){
   }catch(e){alert('Error: '+e.message);}
   finally{btn.disabled=false;btn.textContent='🤖 GET MY GROWTH PLAN';}
 }
-
 function showPlan(planText,followers,views,platform2){
   var out=document.getElementById('plan-output');
-  var fNum=parseInt(followers)||0;
-  var vNum=parseInt(views)||0;
+  var fNum=parseInt(followers)||0,vNum=parseInt(views)||0;
   var score=Math.min(100,Math.round((fNum/1000*30)+(vNum/500*40)+(fNum>0?30:0)));
   out.style.display='block';
-  out.innerHTML='<div class="plan-card"><div class="plan-header"><div class="plan-title">YOUR GROWTH PLAN ✦</div><div class="plan-sub">Based on your '+platform2+' stats · Updated now</div></div><div style="padding:16px 20px;border-bottom:1px solid var(--bd);display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center"><div><div style="font-family:var(--display);font-size:22px;color:var(--grn)">'+followers||'0'+'</div><div style="font-size:10px;color:var(--mut);margin-top:2px">FOLLOWERS</div></div><div><div style="font-family:var(--display);font-size:22px;color:var(--pu2)">'+views||'0'+'</div><div style="font-size:10px;color:var(--mut);margin-top:2px">AVG VIEWS</div></div><div><div style="font-family:var(--display);font-size:22px;color:var(--yel)">'+score+'</div><div style="font-size:10px;color:var(--mut);margin-top:2px">GROWTH SCORE</div></div></div><div style="padding:16px 20px"><div style="font-size:13px;line-height:1.75;color:var(--txt);white-space:pre-wrap">'+planText+'</div></div></div>';
+  out.innerHTML='<div class="plan-card"><div class="plan-header"><div class="plan-title">YOUR GROWTH PLAN ✦</div><div class="plan-sub">Based on your '+platform2+' stats · Updated now</div></div><div style="padding:16px 20px;border-bottom:1px solid var(--bd);display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center"><div><div style="font-family:var(--display);font-size:22px;color:var(--grn)">'+followers+'</div><div style="font-size:10px;color:var(--mut);margin-top:2px">FOLLOWERS</div></div><div><div style="font-family:var(--display);font-size:22px;color:var(--pu2)">'+views+'</div><div style="font-size:10px;color:var(--mut);margin-top:2px">AVG VIEWS</div></div><div><div style="font-family:var(--display);font-size:22px;color:var(--yel)">'+score+'</div><div style="font-size:10px;color:var(--mut);margin-top:2px">GROWTH SCORE</div></div></div><div style="padding:16px 20px"><div style="font-size:13px;line-height:1.75;color:var(--txt);white-space:pre-wrap">'+planText+'</div></div></div>';
 }
-
 function initChat(initialPlan){
-  var chatSection=document.getElementById('chat-section');
-  chatSection.style.display='block';
-  var msgs=document.getElementById('chat-msgs');
-  msgs.innerHTML='';
-  chatHistory=[{role:'system',content:'You are FactFlow AI Coach, an expert Indian social media growth coach. You are talking to a creator with these stats:\n\n'+coachContext+'\n\nYou already gave them this growth plan:\n'+initialPlan+'\n\nNow answer their follow-up questions. Be direct, specific, encouraging. Give actionable advice. Keep responses concise (under 150 words). Mention specific numbers when possible. You know about Instagram Reels, YouTube Shorts, Indian audience behavior, and content creation.'}];
-  addMsg('ai','I\'ve analyzed your stats and created your growth plan above! 📊\n\nAsk me anything — "why am I getting 0 views?", "what time should I post today?", or "how do I make my reel viral?" I\'m here to help you grow! 🚀');
+  var chatSection=document.getElementById('chat-section');chatSection.style.display='block';
+  var msgs=document.getElementById('chat-msgs');msgs.innerHTML='';
+  chatHistory=[{role:'system',content:'You are FactFlow AI Coach, an expert Indian social media growth coach. Creator stats:\n\n'+coachContext+'\n\nGrowth plan given:\n'+initialPlan+'\n\nAnswer follow-up questions. Be direct, specific, encouraging. Under 150 words per reply.'}];
+  addMsg('ai','I\'ve analyzed your stats and created your growth plan above! 📊\n\nAsk me anything — "why am I getting 0 views?", "what time should I post today?", or "how do I make my reel viral?" 🚀');
   setTimeout(function(){chatSection.scrollIntoView({behavior:'smooth',block:'start'});},300);
 }
-
 function addMsg(role,text){
   var msgs=document.getElementById('chat-msgs');
   var msg=document.createElement('div');msg.className='msg '+role;
   var bubble=document.createElement('div');bubble.className='msg-bubble';bubble.textContent=text;
-  var time=document.createElement('div');time.className='msg-time';
-  time.textContent=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-  msg.appendChild(bubble);msg.appendChild(time);msgs.appendChild(msg);
-  msgs.scrollTop=msgs.scrollHeight;
+  var time=document.createElement('div');time.className='msg-time';time.textContent=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  msg.appendChild(bubble);msg.appendChild(time);msgs.appendChild(msg);msgs.scrollTop=msgs.scrollHeight;
 }
-
 function showTyping(){
   var msgs=document.getElementById('chat-msgs');
   var typing=document.createElement('div');typing.className='msg ai';typing.id='typing-ind';
   typing.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
   msgs.appendChild(typing);msgs.scrollTop=msgs.scrollHeight;
 }
-
 function removeTyping(){var t=document.getElementById('typing-ind');if(t)t.remove();}
-
 async function sendChat(){
-  var inp=document.getElementById('chat-inp');
-  var text=inp.value.trim();if(!text)return;
+  var inp=document.getElementById('chat-inp');var text=inp.value.trim();if(!text)return;
   var send=document.getElementById('chat-send');
   addMsg('user',text);chatHistory.push({role:'user',content:text});
   inp.value='';send.disabled=true;showTyping();
@@ -1051,13 +1006,7 @@ async function sendChat(){
   }catch(e){removeTyping();addMsg('ai','Sorry, something went wrong. Please try again!');}
   finally{send.disabled=false;}
 }
-
-function sendQuick(text){
-  document.getElementById('chat-inp').value=text;
-  sendChat();
-  document.getElementById('quick-prompts').style.display='none';
-}
-
+function sendQuick(text){document.getElementById('chat-inp').value=text;sendChat();document.getElementById('quick-prompts').style.display='none';}
 function chatKeydown(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
 </script>
 </body>
