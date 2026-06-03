@@ -4,26 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>FactFlow AI — Daily Content Generator</title>
-
-<!-- PWA / App Icon -->
 <meta name="theme-color" content="#050508">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="FactFlow">
-<link rel="manifest" id="manifest-placeholder">
 
-<!-- Fonts -->
+<!-- Custom SVG Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2305d67d'/><stop offset='100%25' stop-color='%237c5cfc'/></linearGradient></defs><rect width='100' height='100' rx='22' fill='%23050508'/><polygon points='50,15 62,38 88,38 67,56 75,80 50,65 25,80 33,56 12,38 38,38' fill='url(%23g)'/></svg>">
+
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg:#050508; --card:#0c0c14; --card2:#121220; --card3:#181826;
-  --bd:rgba(255,255,255,0.07); --bd2:rgba(255,255,255,0.13);
-  --txt:#f0f0f8; --mut:#55556a; --mut2:#8888a2;
-  --grn:#05d67d; --grn2:#00ff94;
-  --pu:#7c5cfc; --pu2:#a78bfa;
-  --red:#ff4757; --yel:#ffd32a;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050508;--card:#0c0c14;--card2:#121220;--card3:#181826;
+  --bd:rgba(255,255,255,0.07);--bd2:rgba(255,255,255,0.13);
+  --txt:#f0f0f8;--mut:#55556a;--mut2:#8888a2;
+  --grn:#05d67d;--grn2:#00ff94;
+  --pu:#7c5cfc;--pu2:#a78bfa;
+  --red:#ff4757;--yel:#ffd32a;
   --font:'Plus Jakarta Sans',sans-serif;
   --display:'Bebas Neue',sans-serif;
 }
@@ -31,14 +28,15 @@ html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--txt);font-family:var(--font);min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 5% 10%,rgba(5,214,125,0.07) 0%,transparent 55%),radial-gradient(ellipse 60% 50% at 95% 90%,rgba(124,92,252,0.07) 0%,transparent 55%);pointer-events:none;z-index:0}
 
-/* ── SETUP GATE ── */
+/* GATE */
 .gate{position:fixed;inset:0;background:rgba(5,5,8,0.98);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
 .gate-box{background:var(--card);border:1px solid var(--bd2);border-radius:20px;padding:32px 28px;max-width:420px;width:100%;text-align:center}
-.gate-logo{width:56px;height:56px;background:linear-gradient(135deg,var(--grn),var(--pu));border-radius:16px;display:grid;place-items:center;font-size:26px;margin:0 auto 18px}
-.gate-title{font-family:var(--display);font-size:28px;letter-spacing:1px;margin-bottom:6px}
-.gate-sub{font-size:13px;color:var(--mut2);line-height:1.7;margin-bottom:22px}
-.gate-free-tag{display:inline-flex;align-items:center;gap:7px;background:rgba(5,214,125,0.1);border:1px solid rgba(5,214,125,0.25);color:var(--grn);font-size:12px;font-weight:600;padding:5px 16px;border-radius:20px;margin-bottom:22px}
-.gate-steps{display:flex;flex-direction:column;gap:8px;margin-bottom:22px;text-align:left}
+.gate-logo{width:64px;height:64px;background:linear-gradient(135deg,var(--grn),var(--pu));border-radius:18px;display:grid;place-items:center;margin:0 auto 16px;position:relative}
+.gate-logo svg{width:36px;height:36px}
+.gate-title{font-family:var(--display);font-size:30px;letter-spacing:1.5px;margin-bottom:6px}
+.gate-sub{font-size:13px;color:var(--mut2);line-height:1.7;margin-bottom:20px}
+.gate-free-tag{display:inline-flex;align-items:center;gap:7px;background:rgba(5,214,125,0.1);border:1px solid rgba(5,214,125,0.25);color:var(--grn);font-size:12px;font-weight:600;padding:5px 16px;border-radius:20px;margin-bottom:20px}
+.gate-steps{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;text-align:left}
 .gate-step{display:flex;align-items:flex-start;gap:11px;padding:11px 13px;background:var(--card2);border-radius:11px;border:1px solid var(--bd)}
 .gs-num{width:22px;height:22px;background:var(--grn);border-radius:6px;display:grid;place-items:center;font-size:11px;font-weight:700;color:#000;flex-shrink:0;margin-top:1px}
 .gs-text{font-size:12px;color:var(--txt);line-height:1.55}
@@ -50,37 +48,38 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .gate-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--grn),#03a85f);color:#000;border:none;border-radius:12px;font-size:15px;font-family:var(--display);letter-spacing:1.5px;cursor:pointer;transition:all .2s;margin-bottom:12px}
 .gate-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(5,214,125,0.3)}
 .gate-note{font-size:11px;color:var(--mut);line-height:1.65}
-.gate-note a{color:var(--pu2);text-decoration:none}
 .gate-err{background:rgba(255,71,87,0.1);color:#ff8a95;border:1px solid rgba(255,71,87,0.25);border-radius:9px;padding:9px 13px;font-size:13px;display:none;margin-bottom:10px}
 
-/* ── NAV ── */
+/* NAV */
 .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:58px;background:rgba(5,5,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd)}
-.nav-logo{display:flex;align-items:center;gap:10px}
-.nav-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--grn),var(--pu));border-radius:8px;display:grid;place-items:center;font-size:15px}
+.nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.nav-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--grn),var(--pu));border-radius:9px;display:grid;place-items:center}
+.nav-icon svg{width:18px;height:18px}
 .nav-name{font-family:var(--display);font-size:22px;letter-spacing:1px;color:var(--txt)}
 .nav-badge{font-size:9px;font-weight:700;background:rgba(5,214,125,0.12);color:var(--grn);border:1px solid rgba(5,214,125,0.22);padding:2px 8px;border-radius:20px;letter-spacing:.04em}
 .nav-right{display:flex;align-items:center;gap:8px}
-.nav-status{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--bd);padding:6px 12px;border-radius:20px;font-size:11px;color:var(--mut2);cursor:pointer;transition:.2s}
-.nav-status:hover{border-color:var(--bd2)}
-.ndot{width:5px;height:5px;border-radius:50%;background:var(--grn);animation:blink 2s infinite}
+.nav-status{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--bd);padding:6px 12px;border-radius:20px;font-size:11px;color:var(--mut2);cursor:pointer}
+.ndot{width:5px;height:5px;border-radius:50%;background:var(--grn);animation:blink 2s infinite;flex-shrink:0}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-
-/* TABS */
 .tabs{display:flex;background:var(--card2);border:1px solid var(--bd);border-radius:10px;padding:3px;gap:2px}
 .tab-btn{padding:6px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--mut2);transition:all .17s;white-space:nowrap;font-family:var(--font)}
 .tab-btn:hover{color:var(--txt)}
 .tab-btn.active{background:rgba(5,214,125,0.12);color:var(--grn)}
-.tab-btn.active-g{background:rgba(124,92,252,0.12);color:var(--pu2)}
+.tab-btn.active-coach{background:rgba(124,92,252,0.12);color:var(--pu2)}
 .hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px}
 .hbg span{display:block;width:20px;height:1.5px;background:var(--txt);border-radius:2px}
+.mob-nav{display:none;flex-direction:column;gap:4px;padding:10px 16px 14px;border-bottom:1px solid var(--bd);background:var(--card);position:sticky;top:58px;z-index:49}
+.mob-nav.open{display:flex}
+.mob-tab{padding:11px 14px;border-radius:9px;font-size:14px;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--card2);color:var(--mut2);text-align:left;font-family:var(--font);transition:.17s}
+.mob-tab.active,.mob-tab:hover{background:rgba(5,214,125,0.1);border-color:rgba(5,214,125,0.3);color:var(--grn)}
 
-/* PANEL */
+/* PANELS */
 .panel-wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:0 16px 100px}
 .panel{display:none}
 .panel.active{display:block;animation:fadeup .25s ease}
 @keyframes fadeup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── HERO ── */
+/* HERO */
 .hero{text-align:center;padding:52px 20px 44px;max-width:640px;margin:0 auto}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--bd2);padding:6px 16px;border-radius:30px;font-size:11px;color:var(--mut2);margin-bottom:22px;letter-spacing:.03em}
 .hero h1{font-family:var(--display);font-size:clamp(46px,9vw,84px);line-height:.95;letter-spacing:2px;margin-bottom:16px}
@@ -107,7 +106,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .niche-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 @media(max-width:520px){.niche-grid{grid-template-columns:repeat(2,1fr)}}
 .ni{border:1px solid var(--bd);border-radius:12px;padding:14px 8px;text-align:center;cursor:pointer;background:var(--card2);transition:all .17s;user-select:none;position:relative}
-.ni:hover{border-color:var(--bd2);background:rgba(255,255,255,0.02)}
+.ni:hover{border-color:var(--bd2)}
 .ni.on{border-color:rgba(5,214,125,0.45);background:rgba(5,214,125,0.05)}
 .ni.on::after{content:'✓';position:absolute;top:6px;right:8px;font-size:10px;font-weight:700;color:var(--grn)}
 .ni-e{font-size:22px;margin-bottom:6px}
@@ -150,10 +149,9 @@ select option{background:#121220}
 @media(max-width:460px){.g2{grid-template-columns:1fr}}
 
 /* GEN BTN */
-.gen-btn{width:100%;padding:17px;border:none;border-radius:14px;background:linear-gradient(135deg,var(--grn),#03a85f);color:#000;font-size:16px;font-family:var(--display);letter-spacing:2px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden}
-.gen-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.12),transparent)}
+.gen-btn{width:100%;padding:17px;border:none;border-radius:14px;background:linear-gradient(135deg,var(--grn),#03a85f);color:#000;font-size:16px;font-family:var(--display);letter-spacing:2px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px}
 .gen-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 12px 40px rgba(5,214,125,0.3)}
-.gen-btn:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none}
+.gen-btn:disabled{opacity:.3;cursor:not-allowed;transform:none}
 .prog{height:3px;background:var(--card2);border-radius:3px;overflow:hidden;margin:10px 0;display:none}
 .pfill{height:100%;background:linear-gradient(90deg,var(--grn),var(--grn2));animation:pg 2.5s ease-in-out infinite}
 @keyframes pg{0%{width:0}60%{width:76%}100%{width:93%}}
@@ -162,33 +160,42 @@ select option{background:#121220}
 /* RESULTS */
 .results{display:none;margin-top:20px}
 .res-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
-.res-title{font-family:var(--display);font-size:26px;letter-spacing:1px;color:var(--txt)}
+.res-title{font-family:var(--display);font-size:26px;letter-spacing:1px}
 .res-badge{font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;background:rgba(5,214,125,0.12);color:var(--grn);border:1px solid rgba(5,214,125,0.2)}
 .regen{display:flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--bd2);border-radius:9px;background:var(--card);font-size:12px;font-weight:600;cursor:pointer;color:var(--mut2);transition:all .16s;font-family:var(--font)}
-.regen:hover{color:var(--txt);border-color:var(--grn);color:var(--grn)}
+.regen:hover{color:var(--grn);border-color:var(--grn)}
 .mets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
 .met{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;text-align:center}
 .met-n{font-family:var(--display);font-size:28px;letter-spacing:1px;background:linear-gradient(135deg,var(--grn),var(--grn2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .met-l{font-size:10px;color:var(--mut);margin-top:3px;text-transform:uppercase;letter-spacing:.06em}
 
 /* POST CARDS */
-.posts-list{display:flex;flex-direction:column;gap:16px}
+.posts-list{display:flex;flex-direction:column;gap:20px}
 .pcard{background:var(--card);border:1px solid var(--bd);border-radius:16px;overflow:hidden}
-.pcard-canvas-wrap{width:100%;background:#000;position:relative}
-.pcard-canvas{display:block;width:100%;height:auto}
 
-/* AUDIO PLAYER */
-.audio-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--bd);background:var(--card2)}
-.play-btn{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--grn),#03a85f);border:none;display:grid;place-items:center;cursor:pointer;flex-shrink:0;font-size:14px;transition:all .17s}
+/* VIDEO SECTION */
+.video-section{background:var(--card2);border-bottom:1px solid var(--bd);padding:14px 16px}
+.video-label{font-size:11px;font-weight:700;color:var(--grn);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.video-container{position:relative;width:100%;aspect-ratio:9/16;max-height:420px;background:#000;border-radius:10px;overflow:hidden;margin-bottom:10px}
+.video-canvas{width:100%;height:100%;display:block}
+.video-btns{display:flex;gap:8px}
+.vbtn{flex:1;padding:9px;border:1px solid var(--bd2);border-radius:9px;background:var(--card3);font-size:12px;font-weight:600;cursor:pointer;color:var(--txt);transition:all .16s;font-family:var(--font);display:flex;align-items:center;justify-content:center;gap:5px}
+.vbtn:hover{border-color:var(--grn);color:var(--grn)}
+.vbtn.primary{background:linear-gradient(135deg,var(--grn),#03a85f);color:#000;border:none}
+.vbtn.primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(5,214,125,0.3);color:#000}
+.vbtn:disabled{opacity:.4;cursor:not-allowed}
+.render-prog{height:4px;background:var(--card3);border-radius:4px;overflow:hidden;display:none;margin-top:8px}
+.render-fill{height:100%;background:linear-gradient(90deg,var(--grn),var(--pu));border-radius:4px;transition:width .1s}
+
+/* AUDIO BAR */
+.audio-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--bd);background:rgba(5,214,125,0.03)}
+.play-btn{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--grn),#03a85f);border:none;display:grid;place-items:center;cursor:pointer;flex-shrink:0;font-size:14px;color:#000;font-weight:700;transition:all .17s}
 .play-btn:hover{transform:scale(1.07)}
 .audio-info{flex:1;min-width:0}
 .audio-title{font-size:12px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .audio-sub{font-size:10px;color:var(--mut2);margin-top:2px}
 .audio-prog-wrap{flex:1;height:4px;background:var(--card3);border-radius:4px;overflow:hidden;cursor:pointer}
 .audio-prog-fill{height:100%;background:linear-gradient(90deg,var(--grn),var(--grn2));width:0%;transition:width .1s;border-radius:4px}
-.music-toggle{font-size:18px;cursor:pointer;opacity:.5;transition:.17s;flex-shrink:0}
-.music-toggle:hover{opacity:1}
-.music-toggle.on{opacity:1}
 
 /* POST BODY */
 .pbody{padding:16px}
@@ -206,7 +213,6 @@ select option{background:#121220}
 .pa-g:hover{color:var(--grn)}
 .pa-ig:hover{color:#e1306c}
 .pa-yt:hover{color:#ff0000}
-
 .copy-all-btn{width:100%;padding:14px;margin-top:14px;background:var(--card);border:1px solid var(--bd2);border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;color:var(--txt);transition:all .17s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font)}
 .copy-all-btn:hover{border-color:var(--grn);color:var(--grn)}
 
@@ -221,138 +227,178 @@ select option{background:#121220}
 .e-amt{font-family:var(--display);font-size:22px;letter-spacing:.5px;background:linear-gradient(135deg,var(--grn),var(--grn2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px}
 .e-desc{font-size:10px;color:var(--mut);line-height:1.55}
 
-/* ── GROWTH GUIDE ── */
+/* ── AI COACH ── */
+.coach-hero{text-align:center;padding:40px 0 30px}
+.coach-hero h2{font-family:var(--display);font-size:clamp(32px,6vw,52px);letter-spacing:1.5px;margin-bottom:10px}
+.coach-hero p{font-size:14px;color:var(--mut2);line-height:1.75;max-width:460px;margin:0 auto 24px}
+
+/* STATS FORM */
+.stats-form{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:22px;margin-bottom:16px}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
+@media(max-width:460px){.stats-grid{grid-template-columns:1fr}}
+.stat-inp-wrap{display:flex;flex-direction:column;gap:6px}
+.stat-inp-wrap label{font-size:11px;font-weight:700;color:var(--mut2);text-transform:uppercase;letter-spacing:.06em}
+.stat-inp{width:100%;background:var(--card2);border:1px solid var(--bd2);border-radius:10px;padding:11px 14px;font-size:14px;font-family:var(--font);color:var(--txt);outline:none}
+.stat-inp:focus{border-color:rgba(5,214,125,0.4)}
+.stat-inp::placeholder{color:var(--mut)}
+.analyze-btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--pu),#5a3fc0);color:#fff;font-size:15px;font-family:var(--display);letter-spacing:1.5px;cursor:pointer;transition:all .2s}
+.analyze-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 30px rgba(124,92,252,0.3)}
+.analyze-btn:disabled{opacity:.3;cursor:not-allowed}
+
+/* CHAT */
+.chat-wrap{background:var(--card);border:1px solid var(--bd);border-radius:16px;overflow:hidden;margin-bottom:16px}
+.chat-header{padding:14px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px;background:var(--card2)}
+.chat-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--pu),var(--grn));display:grid;place-items:center;font-size:16px;flex-shrink:0}
+.chat-name{font-size:13px;font-weight:700}
+.chat-status{font-size:11px;color:var(--grn);display:flex;align-items:center;gap:4px}
+.chat-msgs{height:360px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
+.chat-msgs::-webkit-scrollbar{width:4px}
+.chat-msgs::-webkit-scrollbar-track{background:transparent}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:4px}
+.msg{max-width:85%;display:flex;flex-direction:column;gap:4px}
+.msg.user{align-self:flex-end;align-items:flex-end}
+.msg.ai{align-self:flex-start;align-items:flex-start}
+.msg-bubble{padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.6;word-break:break-word}
+.msg.user .msg-bubble{background:linear-gradient(135deg,var(--pu),#5a3fc0);color:#fff;border-radius:14px 14px 4px 14px}
+.msg.ai .msg-bubble{background:var(--card2);border:1px solid var(--bd2);color:var(--txt);border-radius:14px 14px 14px 4px;white-space:pre-wrap}
+.msg-time{font-size:10px;color:var(--mut);padding:0 4px}
+.typing{display:flex;gap:4px;align-items:center;padding:10px 14px;background:var(--card2);border:1px solid var(--bd2);border-radius:14px 14px 14px 4px}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--mut2);animation:typingBounce .8s ease-in-out infinite}
+.typing span:nth-child(2){animation-delay:.15s}
+.typing span:nth-child(3){animation-delay:.3s}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.chat-input-wrap{padding:12px;border-top:1px solid var(--bd);display:flex;gap:8px;background:var(--card2)}
+.chat-input{flex:1;background:var(--card);border:1px solid var(--bd2);border-radius:10px;padding:10px 14px;font-size:13px;font-family:var(--font);color:var(--txt);outline:none;resize:none;height:42px}
+.chat-input:focus{border-color:rgba(124,92,252,0.4)}
+.chat-send{width:42px;height:42px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--pu),#5a3fc0);color:#fff;cursor:pointer;font-size:16px;display:grid;place-items:center;flex-shrink:0;transition:all .17s}
+.chat-send:hover{transform:scale(1.05)}
+.chat-send:disabled{opacity:.3}
+
+/* QUICK PROMPTS */
+.quick-prompts{display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px 0;border-top:1px solid var(--bd)}
+.qp{padding:6px 12px;background:var(--card2);border:1px solid var(--bd);border-radius:20px;font-size:11px;color:var(--mut2);cursor:pointer;transition:all .16s;font-family:var(--font)}
+.qp:hover{border-color:var(--pu2);color:var(--pu2)}
+
+/* PLAN CARD */
+.plan-card{background:var(--card);border:1px solid var(--bd);border-radius:16px;overflow:hidden;margin-bottom:14px}
+.plan-header{padding:16px 20px;background:linear-gradient(135deg,rgba(124,92,252,0.15),rgba(5,214,125,0.1));border-bottom:1px solid var(--bd)}
+.plan-title{font-family:var(--display);font-size:22px;letter-spacing:1px;margin-bottom:4px}
+.plan-sub{font-size:12px;color:var(--mut2)}
+.plan-steps{display:flex;flex-direction:column;gap:0}
+.plan-step{display:flex;gap:14px;padding:14px 20px;border-bottom:1px solid var(--bd)}
+.plan-step:last-child{border-bottom:none}
+.ps-icon{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:14px;flex-shrink:0;margin-top:2px}
+.ps-g{background:rgba(5,214,125,0.12);border:1px solid rgba(5,214,125,0.25)}
+.ps-p{background:rgba(124,92,252,0.12);border:1px solid rgba(124,92,252,0.25)}
+.ps-y{background:rgba(255,211,42,0.12);border:1px solid rgba(255,211,42,0.25)}
+.ps-r{background:rgba(255,71,87,0.12);border:1px solid rgba(255,71,87,0.25)}
+.ps-title{font-size:13px;font-weight:700;margin-bottom:3px}
+.ps-desc{font-size:12px;color:var(--mut2);line-height:1.6}
+
+/* GROWTH GUIDE */
 .growth-hero{text-align:center;padding:40px 0 30px}
 .growth-hero h2{font-family:var(--display);font-size:clamp(32px,6vw,56px);letter-spacing:1.5px;margin-bottom:10px}
 .growth-hero p{font-size:14px;color:var(--mut2);line-height:1.75;max-width:460px;margin:0 auto}
 .phase-label{font-family:var(--display);font-size:20px;letter-spacing:1px;color:var(--mut2);margin:24px 0 12px;display:flex;align-items:center;gap:10px}
 .phase-line{flex:1;height:1px;background:var(--bd2)}
 .day-cards{display:flex;flex-direction:column;gap:10px}
-.day-card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;display:flex;gap:16px;align-items:flex-start;transition:border .17s}
-.day-card:hover{border-color:var(--bd2)}
+.day-card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;display:flex;gap:16px;align-items:flex-start}
 .day-num{font-family:var(--display);font-size:28px;letter-spacing:1px;background:linear-gradient(135deg,var(--grn),var(--grn2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;flex-shrink:0;min-width:48px;line-height:1}
-.day-content{}
-.day-title{font-size:14px;font-weight:700;color:var(--txt);margin-bottom:4px}
+.day-title{font-size:14px;font-weight:700;margin-bottom:4px}
 .day-task{font-size:12px;color:var(--mut2);line-height:1.65}
 .day-tag{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;margin-top:6px}
 .tag-post{background:rgba(5,214,125,0.12);color:var(--grn);border:1px solid rgba(5,214,125,0.2)}
 .tag-setup{background:rgba(124,92,252,0.12);color:var(--pu2);border:1px solid rgba(124,92,252,0.2)}
 .tag-growth{background:rgba(255,211,42,0.12);color:var(--yel);border:1px solid rgba(255,211,42,0.2)}
-
-/* POSTING TIMES */
 .time-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
 @media(max-width:460px){.time-grid{grid-template-columns:1fr 1fr}}
 .tcard{background:var(--card);border:1px solid var(--bd);border-radius:13px;padding:16px;text-align:center}
 .t-time{font-family:var(--display);font-size:24px;letter-spacing:1px;background:linear-gradient(135deg,var(--grn),var(--grn2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.t-day{font-size:11px;font-weight:600;color:var(--txt);margin:4px 0 2px}
+.t-day{font-size:11px;font-weight:600;margin:4px 0 2px}
 .t-why{font-size:10px;color:var(--mut);line-height:1.5}
 .t-rank{font-size:9px;font-weight:700;color:var(--yel);margin-top:6px;text-transform:uppercase;letter-spacing:.05em}
-
-/* DOMAIN GUIDE */
-.domain-steps{display:flex;flex-direction:column;gap:10px;margin-top:14px}
-.dstep{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;display:flex;gap:14px;align-items:flex-start}
-.ds-num{width:28px;height:28px;background:linear-gradient(135deg,var(--grn),var(--pu));border-radius:8px;display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;font-family:var(--display)}
-.ds-body{}
-.ds-title{font-size:13px;font-weight:600;color:var(--txt);margin-bottom:3px}
-.ds-desc{font-size:12px;color:var(--mut2);line-height:1.6}
-.ds-desc a{color:var(--grn);text-decoration:none;font-weight:600}
-.ds-desc code{background:var(--card2);border:1px solid var(--bd);padding:2px 7px;border-radius:5px;font-size:11px;color:var(--pu2)}
-
-/* SECURITY BOX */
-.sec-box{background:rgba(255,211,42,0.06);border:1px solid rgba(255,211,42,0.2);border-radius:13px;padding:18px;margin-bottom:14px}
-.sec-box-title{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--yel);margin-bottom:10px}
-.sec-box p{font-size:13px;color:var(--mut2);line-height:1.7}
-.sec-box strong{color:var(--txt)}
 
 @media(max-width:600px){
   .nav{padding:0 14px;height:54px}
   .tabs{display:none}
   .hbg{display:flex}
-  .hero{padding:32px 16px 26px}
-  .pa{font-size:10px;padding:11px 4px}
+  .earn-grid{grid-template-columns:1fr 1fr}
   .mets{gap:7px}
+  .pa{font-size:10px;padding:10px 4px}
+  .stats-grid{grid-template-columns:1fr}
 }
-.mob-nav{display:none;flex-direction:column;gap:4px;padding:10px 16px 14px;border-bottom:1px solid var(--bd);background:var(--card);position:sticky;top:58px;z-index:49}
-.mob-nav.open{display:flex}
-.mob-tab{padding:11px 14px;border-radius:9px;font-size:14px;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--card2);color:var(--mut2);text-align:left;font-family:var(--font);transition:.17s}
-.mob-tab.active,.mob-tab:hover{background:rgba(5,214,125,0.1);border-color:rgba(5,214,125,0.3);color:var(--grn)}
 </style>
 </head>
 <body>
 
-<!-- ── GATE ── -->
+<!-- GATE -->
 <div class="gate" id="gate">
   <div class="gate-box">
-    <div class="gate-logo">✦</div>
+    <div class="gate-logo">
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="18,4 22,14 33,14 24,21 27,32 18,25 9,32 12,21 3,14 14,14" fill="white"/>
+      </svg>
+    </div>
     <div class="gate-title">FACTFLOW AI</div>
-    <div class="gate-sub">Generate daily viral content for Instagram & YouTube. Your key is saved only in your browser — never on any server.</div>
+    <div class="gate-sub">Generate daily viral content for Instagram & YouTube — plus AI growth coaching to tell you exactly what to do next.</div>
     <div class="gate-free-tag"><span class="ndot"></span> Groq API — 100% Free Forever</div>
     <div class="gate-steps">
-      <div class="gate-step">
-        <div class="gs-num">1</div>
-        <div class="gs-text">Go to <a href="https://console.groq.com" target="_blank">console.groq.com</a> and sign up free<span>Only email needed — no credit card, no charges</span></div>
-      </div>
-      <div class="gate-step">
-        <div class="gs-num">2</div>
-        <div class="gs-text">Click "API Keys" → "Create API Key" → copy it<span>Starts with gsk_...</span></div>
-      </div>
-      <div class="gate-step">
-        <div class="gs-num">3</div>
-        <div class="gs-text">Paste below and click Start<span>Saved in your browser localStorage only</span></div>
-      </div>
+      <div class="gate-step"><div class="gs-num">1</div><div class="gs-text">Go to <a href="https://console.groq.com" target="_blank">console.groq.com</a> and sign up free<span>Email only — no credit card needed</span></div></div>
+      <div class="gate-step"><div class="gs-num">2</div><div class="gs-text">Click "API Keys" → "Create API Key" → copy it<span>Starts with gsk_...</span></div></div>
+      <div class="gate-step"><div class="gs-num">3</div><div class="gs-text">Paste below and click Start<span>Saved only in your browser — never on any server</span></div></div>
     </div>
     <div class="gate-err" id="gate-err"></div>
     <input class="gate-inp" type="password" id="key-inp" placeholder="gsk_..." autocomplete="off"/>
     <button class="gate-btn" onclick="startApp()">START CREATING — FREE ✦</button>
-    <div class="gate-note">🔒 Your key is stored in <strong style="color:var(--txt)">localStorage</strong> on your device only. It is never sent to our servers — only directly to Groq's API. <a href="https://console.groq.com/docs/openai" target="_blank">Groq docs →</a></div>
+    <div class="gate-note">🔒 Key stored in <strong style="color:var(--txt)">localStorage</strong> on your device only. Never sent to our servers.</div>
   </div>
 </div>
 
-<!-- ── NAV ── -->
+<!-- NAV -->
 <nav class="nav">
-  <div class="nav-logo">
-    <div class="nav-icon">✦</div>
+  <div class="nav-logo" onclick="showPanel('gen')">
+    <div class="nav-icon">
+      <svg viewBox="0 0 36 36" fill="none"><polygon points="18,4 22,14 33,14 24,21 27,32 18,25 9,32 12,21 3,14 14,14" fill="white"/></svg>
+    </div>
     <span class="nav-name">FactFlow</span>
     <span class="nav-badge">AI FREE</span>
   </div>
   <div class="nav-right">
     <div class="tabs">
       <button class="tab-btn active" id="tab-gen" onclick="showPanel('gen')">✦ Generate</button>
+      <button class="tab-btn" id="tab-coach" onclick="showPanel('coach')">🤖 AI Coach</button>
       <button class="tab-btn" id="tab-grow" onclick="showPanel('grow')">📈 Growth Guide</button>
-      <button class="tab-btn" id="tab-domain" onclick="showPanel('domain')">🌐 Free Domain</button>
     </div>
-    <div class="nav-status" onclick="resetKey()" title="Click to change key">
-      <span class="ndot"></span> Groq Free
-    </div>
+    <div class="nav-status" onclick="resetKey()" title="Click to change key"><span class="ndot"></span> Groq Free</div>
     <div class="hbg" onclick="toggleMob()"><span></span><span></span><span></span></div>
   </div>
 </nav>
 <div class="mob-nav" id="mob-nav">
-  <button class="mob-tab active" onclick="showPanel('gen');toggleMob()">✦ Generate Posts</button>
+  <button class="mob-tab active" onclick="showPanel('gen');toggleMob()">✦ Generate Posts + Reels</button>
+  <button class="mob-tab" onclick="showPanel('coach');toggleMob()">🤖 AI Growth Coach</button>
   <button class="mob-tab" onclick="showPanel('grow');toggleMob()">📈 Day 1–15 Growth Guide</button>
-  <button class="mob-tab" onclick="showPanel('domain');toggleMob()">🌐 Free Domain Setup</button>
 </div>
 
 <div class="panel-wrap">
 
-<!-- ── GENERATE PANEL ── -->
+<!-- ═══ GENERATE PANEL ═══ -->
 <div class="panel active" id="panel-gen">
   <div class="hero">
-    <div class="hero-eyebrow"><span class="ndot"></span> AI Voice + Visual Card + Caption — Ready to post</div>
-    <h1><span>DAILY VIRAL</span><span class="h-g">FACTS FOR</span><span class="h-p">IG & YOUTUBE</span></h1>
-    <p class="hero-sub">Generate posts with AI voice narration, downloadable image cards, and full captions. Post daily. Grow. Earn.</p>
+    <div class="hero-eyebrow"><span class="ndot"></span> Reel Video + Image Card + Caption — Download & Post</div>
+    <h1><span>VIRAL REELS</span><span class="h-g">READY TO</span><span class="h-p">DOWNLOAD</span></h1>
+    <p class="hero-sub">Generate animated video reels with moving text + background music, downloadable image cards, and full captions. Post daily. Grow.</p>
     <div class="hero-pills">
-      <div class="hpill">🎙️ <strong>AI Voice</strong> narration</div>
+      <div class="hpill">🎬 <strong>Video Reel</strong> download</div>
       <div class="hpill">🖼️ <strong>Image card</strong> included</div>
+      <div class="hpill">🎵 <strong>Background</strong> music</div>
       <div class="hpill">💰 <strong>₹0</strong> forever</div>
     </div>
   </div>
 
-  <!-- NICHE -->
   <div class="sec"><div class="scard">
-    <div class="sch"><div class="sci sci-g">🎯</div><div><div class="sct">Your niche</div><div class="scs">Stick to one topic for fastest growth</div></div></div>
+    <div class="sch"><div class="sci sci-g">🎯</div><div><div class="sct">Your niche</div><div class="scs">Pick your content category</div></div></div>
     <div class="niche-grid" id="niche-grid">
-      <div class="ni on" data-v="Dark and shocking history of India" onclick="pickN(this)"><div class="ni-e">🇮🇳</div><div class="ni-n">Dark India History</div><div class="ni-s">Viral fast</div></div>
+      <div class="ni on" data-v="Dark and shocking history of India" onclick="pickN(this)"><div class="ni-e">🇮🇳</div><div class="ni-n">Dark India</div><div class="ni-s">Viral fast</div></div>
       <div class="ni" data-v="Cricket and IPL shocking surprising facts" onclick="pickN(this)"><div class="ni-e">🏏</div><div class="ni-n">Cricket & IPL</div><div class="ni-s">Huge audience</div></div>
       <div class="ni" data-v="Space and universe mind-blowing facts" onclick="pickN(this)"><div class="ni-e">🚀</div><div class="ni-n">Space Facts</div><div class="ni-s">Universal appeal</div></div>
       <div class="ni" data-v="Psychology human mind behaviour secrets" onclick="pickN(this)"><div class="ni-e">🧠</div><div class="ni-n">Psychology</div><div class="ni-s">High saves</div></div>
@@ -364,12 +410,11 @@ select option{background:#121220}
     <div class="custom-box" id="custom-box"><input type="text" id="custom-val" placeholder="Type your niche e.g. Football facts, Tech history..."/></div>
   </div></div>
 
-  <!-- PLATFORM -->
   <div class="sec"><div class="scard">
-    <div class="sch"><div class="sci sci-p">📱</div><div><div class="sct">Platform & style</div><div class="scs">Caption style and card theme</div></div></div>
+    <div class="sch"><div class="sci sci-p">📱</div><div><div class="sct">Platform & style</div></div></div>
     <div class="plat-grid" id="plat-grid">
-      <div class="plat-item on" data-v="instagram" onclick="pickP(this)"><div class="pi-ic pi-ig">📸</div><div><div class="pi-n">Instagram</div><div class="pi-d">Caption + hashtags + card</div></div></div>
-      <div class="plat-item" data-v="youtube" onclick="pickP(this)"><div class="pi-ic pi-yt">▶️</div><div><div class="pi-n">YouTube Shorts</div><div class="pi-d">Script + thumbnail card</div></div></div>
+      <div class="plat-item on" data-v="instagram" onclick="pickP(this)"><div class="pi-ic pi-ig">📸</div><div><div class="pi-n">Instagram Reels</div><div class="pi-d">9:16 reel video + card</div></div></div>
+      <div class="plat-item" data-v="youtube" onclick="pickP(this)"><div class="pi-ic pi-yt">▶️</div><div><div class="pi-n">YouTube Shorts</div><div class="pi-d">9:16 short video + card</div></div></div>
     </div>
     <div style="margin-top:16px">
       <span class="flabel">Caption tone</span>
@@ -383,7 +428,7 @@ select option{background:#121220}
       </div>
     </div>
     <div style="margin-top:16px">
-      <span class="flabel">Card theme</span>
+      <span class="flabel">Visual theme</span>
       <div class="tdots" id="tdots">
         <div class="tdot on" data-v="dark" onclick="pickT(this)" title="Deep Blue" style="background:linear-gradient(135deg,#0d0d2b,#1a1a4e)"></div>
         <div class="tdot" data-v="fire" onclick="pickT(this)" title="Fire" style="background:linear-gradient(135deg,#1a0500,#4d1500)"></div>
@@ -395,12 +440,11 @@ select option{background:#121220}
     </div>
   </div></div>
 
-  <!-- COUNT -->
   <div class="sec"><div class="scard">
     <div class="sch"><div class="sci sci-y">📦</div><div><div class="sct">Quantity & language</div></div></div>
     <div class="g2">
       <div class="fw"><span class="flabel">Number of posts</span>
-        <select id="pcount"><option value="1">1 post — today</option><option value="3">3 posts — 3 days</option><option value="5" selected>5 posts — half week</option><option value="7">7 posts — full week</option></select>
+        <select id="pcount"><option value="1">1 post</option><option value="3">3 posts</option><option value="5" selected>5 posts</option><option value="7">7 posts</option></select>
       </div>
       <div class="fw"><span class="flabel">Language</span>
         <select id="plang"><option value="English">English</option><option value="Hinglish (Hindi-English mix)">Hinglish</option><option value="Hindi">Hindi</option></select>
@@ -408,299 +452,231 @@ select option{background:#121220}
     </div>
   </div></div>
 
-  <button class="gen-btn" id="gen-btn" onclick="generate()">✦ GENERATE MY POSTS</button>
+  <button class="gen-btn" id="gen-btn" onclick="generate()">✦ GENERATE POSTS + REELS</button>
   <div class="prog" id="prog"><div class="pfill"></div></div>
   <div class="errbox" id="errbox"></div>
 
-  <!-- RESULTS -->
   <div class="results" id="results">
     <div class="res-top">
-      <div><div class="res-title">YOUR POSTS ✦</div><div style="font-size:13px;color:var(--mut2);margin-top:4px">🎙️ Play AI voice · ⬇️ Save image · 📸 Post directly</div></div>
+      <div><div class="res-title">YOUR CONTENT ✦</div><div style="font-size:13px;color:var(--mut2);margin-top:4px">🎬 Download reel video · 🖼️ Save image · 📸 Post to IG</div></div>
       <div style="display:flex;gap:8px;align-items:center"><span class="res-badge" id="res-count">5 posts</span><button class="regen" onclick="generate()">🔄 New batch</button></div>
     </div>
     <div class="mets">
       <div class="met"><div class="met-n" id="m1">0</div><div class="met-l">Posts</div></div>
-      <div class="met"><div class="met-n" id="m2">0</div><div class="met-l">Days</div></div>
+      <div class="met"><div class="met-n" id="m2">0</div><div class="met-l">Reels Ready</div></div>
       <div class="met"><div class="met-n" id="m3">0</div><div class="met-l">Hashtags</div></div>
     </div>
     <div class="posts-list" id="posts-list"></div>
     <button class="copy-all-btn" onclick="copyAll()">📋 Copy all captions at once</button>
     <div class="earn-ttl">YOUR EARNINGS ROADMAP</div>
     <div class="earn-grid">
-      <div class="ecard"><div class="e-icon">📅</div><div class="e-lbl">Month 1–2</div><div class="e-amt">1K–5K</div><div class="e-desc">Followers. Post daily using this tool. Don't miss a day.</div></div>
-      <div class="ecard"><div class="e-icon">🤝</div><div class="e-lbl">Month 3–4</div><div class="e-amt">₹5k/post</div><div class="e-desc">First brand deals & sponsored story mentions.</div></div>
-      <div class="ecard"><div class="e-icon">🚀</div><div class="e-lbl">Month 6+</div><div class="e-amt">₹50k/mo</div><div class="e-desc">10k+ followers, multiple brand deals monthly.</div></div>
+      <div class="ecard"><div class="e-icon">📅</div><div class="e-lbl">Month 1–2</div><div class="e-amt">1K–5K</div><div class="e-desc">Followers. Post daily. Don't miss a day.</div></div>
+      <div class="ecard"><div class="e-icon">🤝</div><div class="e-lbl">Month 3–4</div><div class="e-amt">₹5k/post</div><div class="e-desc">First brand deals & sponsored mentions.</div></div>
+      <div class="ecard"><div class="e-icon">🚀</div><div class="e-lbl">Month 6+</div><div class="e-amt">₹50k/mo</div><div class="e-desc">10k+ followers, multiple brand deals.</div></div>
     </div>
   </div>
 </div>
 
-<!-- ── GROWTH GUIDE PANEL ── -->
+<!-- ═══ AI COACH PANEL ═══ -->
+<div class="panel" id="panel-coach">
+  <div class="coach-hero">
+    <h2>AI <span class="h-p">GROWTH</span><br>COACH</h2>
+    <p>Tell me your stats — followers, views, likes — and I'll tell you exactly what to do next. Zero fluff, just action steps.</p>
+  </div>
+
+  <!-- Stats Input Form -->
+  <div class="stats-form">
+    <div class="sch"><div class="sci sci-p">📊</div><div><div class="sct">Your current stats</div><div class="scs">Fill what you have — leave blank what you don't know</div></div></div>
+    <div class="stats-grid">
+      <div class="stat-inp-wrap">
+        <label>Platform</label>
+        <select id="coach-platform" class="stat-inp">
+          <option value="Instagram">Instagram</option>
+          <option value="YouTube">YouTube</option>
+          <option value="Both">Both</option>
+        </select>
+      </div>
+      <div class="stat-inp-wrap">
+        <label>Followers / Subscribers</label>
+        <input type="text" id="coach-followers" class="stat-inp" placeholder="e.g. 0, 150, 2000"/>
+      </div>
+      <div class="stat-inp-wrap">
+        <label>Avg Views per post</label>
+        <input type="text" id="coach-views" class="stat-inp" placeholder="e.g. 0, 50, 500"/>
+      </div>
+      <div class="stat-inp-wrap">
+        <label>Avg Likes per post</label>
+        <input type="text" id="coach-likes" class="stat-inp" placeholder="e.g. 0, 20, 200"/>
+      </div>
+      <div class="stat-inp-wrap">
+        <label>How long posting?</label>
+        <select id="coach-duration" class="stat-inp">
+          <option value="just started today">Just started today</option>
+          <option value="less than 1 week">Less than 1 week</option>
+          <option value="1-2 weeks">1–2 weeks</option>
+          <option value="1 month">1 month</option>
+          <option value="2-3 months">2–3 months</option>
+          <option value="more than 3 months">More than 3 months</option>
+        </select>
+      </div>
+      <div class="stat-inp-wrap">
+        <label>Posts per week</label>
+        <select id="coach-frequency" class="stat-inp">
+          <option value="0 - I haven't posted yet">0 — haven't posted yet</option>
+          <option value="1-2 posts per week">1–2 posts/week</option>
+          <option value="3-4 posts per week">3–4 posts/week</option>
+          <option value="5-7 posts per week (daily)">Daily (5–7/week)</option>
+        </select>
+      </div>
+    </div>
+    <div class="stat-inp-wrap" style="margin-bottom:14px">
+      <label>Your niche / content type</label>
+      <input type="text" id="coach-niche" class="stat-inp" placeholder="e.g. Dark India history facts, Cricket facts, Psychology..."/>
+    </div>
+    <div class="stat-inp-wrap" style="margin-bottom:16px">
+      <label>Biggest problem right now</label>
+      <input type="text" id="coach-problem" class="stat-inp" placeholder="e.g. getting 0 views, don't know what to post, low engagement..."/>
+    </div>
+    <button class="analyze-btn" id="analyze-btn" onclick="analyzeStats()">🤖 GET MY GROWTH PLAN</button>
+  </div>
+
+  <!-- Plan Output -->
+  <div id="plan-output" style="display:none"></div>
+
+  <!-- Chat -->
+  <div class="chat-wrap" id="chat-section" style="display:none">
+    <div class="chat-header">
+      <div class="chat-avatar">🤖</div>
+      <div>
+        <div class="chat-name">FactFlow AI Coach</div>
+        <div class="chat-status"><span class="ndot"></span> Online — Ask me anything</div>
+      </div>
+    </div>
+    <div class="quick-prompts" id="quick-prompts">
+      <div class="qp" onclick="sendQuick('I got 0 views on my last post. What should I do?')">0 views help</div>
+      <div class="qp" onclick="sendQuick('When is the best time to post today?')">Best time to post</div>
+      <div class="qp" onclick="sendQuick('I gained 100 followers this week. What should I focus on next?')">I gained followers</div>
+      <div class="qp" onclick="sendQuick('How do I make my reels go viral?')">Go viral tips</div>
+      <div class="qp" onclick="sendQuick('Should I post on Instagram or YouTube first?')">IG vs YouTube</div>
+      <div class="qp" onclick="sendQuick('My engagement is dropping. Why and what to do?')">Low engagement</div>
+    </div>
+    <div class="chat-msgs" id="chat-msgs"></div>
+    <div class="chat-input-wrap">
+      <textarea class="chat-input" id="chat-inp" placeholder="Ask me anything about your growth..." onkeydown="chatKeydown(event)" rows="1"></textarea>
+      <button class="chat-send" id="chat-send" onclick="sendChat()">➤</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ GROWTH GUIDE PANEL ═══ -->
 <div class="panel" id="panel-grow">
   <div class="growth-hero">
     <h2>DAY 1 TO <span class="h-g">DAY 15</span><br>GROWTH GUIDE</h2>
-    <p>Exact actions to take every single day to grow your Instagram or YouTube from 0 to your first 5,000 followers.</p>
+    <p>Exact actions to take every single day to grow from 0 to your first 5,000 followers.</p>
   </div>
 
-  <!-- POSTING TIMES -->
   <div class="scard" style="margin-bottom:14px">
-    <div class="sch"><div class="sci sci-g">⏰</div><div><div class="sct">Best posting times for India</div><div class="scs">These times get maximum Indian audience reach</div></div></div>
+    <div class="sch"><div class="sci sci-g">⏰</div><div><div class="sct">Best posting times for India</div><div class="scs">Maximum Indian audience reach</div></div></div>
     <div class="time-grid">
-      <div class="tcard"><div class="t-time">7 AM</div><div class="t-day">Every day</div><div class="t-why">People check phones right after waking up</div><div class="t-rank">🥇 Best time</div></div>
-      <div class="tcard"><div class="t-time">12 PM</div><div class="t-day">Weekdays</div><div class="t-why">Lunch break scroll — office & college crowd</div><div class="t-rank">🥈 Second best</div></div>
-      <div class="tcard"><div class="t-time">8 PM</div><div class="t-day">Every day</div><div class="t-why">After dinner peak — highest engagement window</div><div class="t-rank">🥇 Best time</div></div>
-      <div class="tcard"><div class="t-time">9 PM</div><div class="t-day">Fri & Sat</div><div class="t-why">Weekend night — people are relaxed and scrolling</div><div class="t-rank">🥇 Weekend peak</div></div>
-      <div class="tcard"><div class="t-time">3 PM</div><div class="t-day">Weekdays</div><div class="t-why">College students free after class</div><div class="t-rank">🥉 Third best</div></div>
-      <div class="tcard"><div class="t-time">11 PM</div><div class="t-day">Avoid</div><div class="t-why">Most people asleep — very low reach</div><div class="t-rank">❌ Worst time</div></div>
+      <div class="tcard"><div class="t-time">7 AM</div><div class="t-day">Every day</div><div class="t-why">Morning phone check habit</div><div class="t-rank">🥇 Best time</div></div>
+      <div class="tcard"><div class="t-time">12 PM</div><div class="t-day">Weekdays</div><div class="t-why">Lunch break scroll</div><div class="t-rank">🥈 Second best</div></div>
+      <div class="tcard"><div class="t-time">8 PM</div><div class="t-day">Every day</div><div class="t-why">After dinner — peak engagement</div><div class="t-rank">🥇 Best time</div></div>
+      <div class="tcard"><div class="t-time">9 PM</div><div class="t-day">Fri & Sat</div><div class="t-why">Weekend night scroll</div><div class="t-rank">🥇 Weekend peak</div></div>
+      <div class="tcard"><div class="t-time">3 PM</div><div class="t-day">Weekdays</div><div class="t-why">College students free</div><div class="t-rank">🥉 Third best</div></div>
+      <div class="tcard"><div class="t-time">11 PM</div><div class="t-day">Avoid</div><div class="t-why">Most people sleeping</div><div class="t-rank">❌ Worst time</div></div>
     </div>
   </div>
 
-  <!-- DAY BY DAY -->
   <div class="phase-label"><span>PHASE 1 — SETUP</span><span class="phase-line"></span><span style="font-size:12px;color:var(--mut2);white-space:nowrap">Day 1–3</span></div>
   <div class="day-cards">
-    <div class="day-card">
-      <div class="day-num">01</div>
-      <div class="day-content">
-        <div class="day-title">Create your account with the right username</div>
-        <div class="day-task">Pick a niche username like @darkindiahistory or @mindfactsdaily. Set a clean logo (black background + white text). Write bio: "Daily [niche] facts 🇮🇳 | Follow for mind-blowing content". Add a link to your FactFlow tool.</div>
-        <span class="day-tag tag-setup">⚙️ Setup</span>
-      </div>
-    </div>
-    <div class="day-card">
-      <div class="day-num">02</div>
-      <div class="day-content">
-        <div class="day-title">Post your first 3 facts back to back</div>
-        <div class="day-task">Generate 3 posts using this tool. Post all 3 today at 7am, 12pm, and 8pm. This fills your grid so new visitors see real content. Use Reels format — black card + text + trending audio from Instagram's library.</div>
-        <span class="day-tag tag-post">📸 Post</span>
-      </div>
-    </div>
-    <div class="day-card">
-      <div class="day-num">03</div>
-      <div class="day-content">
-        <div class="day-title">Find and follow 50 accounts in your niche</div>
-        <div class="day-task">Search your niche hashtags. Follow 50 similar accounts. Like and genuinely comment on their recent posts. Many will follow back. This gives you your first 20–50 followers organically. Do NOT use bots — Instagram will ban you.</div>
-        <span class="day-tag tag-growth">📈 Growth</span>
-      </div>
-    </div>
+    <div class="day-card"><div class="day-num">01</div><div><div class="day-title">Create account with the right username</div><div class="day-task">Pick a niche username like @darkindiahistory or @mindfactsdaily. Write bio: "Daily [niche] facts 🇮🇳 | Follow for mind-blowing content". Use a clean logo — black background + white text.</div><span class="day-tag tag-setup">⚙️ Setup</span></div></div>
+    <div class="day-card"><div class="day-num">02</div><div><div class="day-title">Post your first 3 facts back to back</div><div class="day-task">Generate 3 reels using this tool. Download the video files. Post all 3 today at 7am, 12pm, and 8pm. Add trending audio from Instagram's library (look for the 🎵 trending arrow).</div><span class="day-tag tag-post">📸 Post</span></div></div>
+    <div class="day-card"><div class="day-num">03</div><div><div class="day-title">Follow 50 accounts in your niche</div><div class="day-task">Search your niche hashtags. Follow 50 similar accounts. Like and genuinely comment on their recent posts. Many will follow back. This gives your first 20–50 followers. Never use bots.</div><span class="day-tag tag-growth">📈 Growth</span></div></div>
   </div>
 
   <div class="phase-label"><span>PHASE 2 — MOMENTUM</span><span class="phase-line"></span><span style="font-size:12px;color:var(--mut2);white-space:nowrap">Day 4–10</span></div>
   <div class="day-cards">
-    <div class="day-card">
-      <div class="day-num">04</div>
-      <div class="day-content">
-        <div class="day-title">Post 1 Reel daily — NO exceptions</div>
-        <div class="day-task">From today, post exactly 1 Reel every day at 7pm. Use this tool to generate. Add trending audio from Instagram Reels library (look for the 🎵 arrow icon — that means it's trending). Consistency from day 4 is what separates accounts that grow from accounts that don't.</div>
-        <span class="day-tag tag-post">📸 Post daily</span>
-      </div>
-    </div>
-    <div class="day-card">
-      <div class="day-num">05</div>
-      <div class="day-content">
-        <div class="day-title">Engage for 30 mins every day</div>
-        <div class="day-task">After posting, spend 30 minutes: reply to every comment on your posts, go to your niche hashtags, like and comment on 20 posts. Say something real — not just "nice post". Instagram rewards accounts that engage. This alone can 3x your reach.</div>
-        <span class="day-tag tag-growth">📈 Engage</span>
-      </div>
-    </div>
-    <div class="day-card">
-      <div class="day-num">07</div>
-      <div class="day-content">
-        <div class="day-title">Share your best post to WhatsApp groups</div>
-        <div class="day-task">Take your best Reel from the week. Share it in 10 WhatsApp groups with: "Guys yeh fact pata tha kya? 😱 [link]". Ask friends and family to share it in their groups too. One viral WhatsApp share can bring 200–500 new followers overnight.</div>
-        <span class="day-tag tag-growth">💬 WhatsApp push</span>
-      </div>
-    </div>
-    <div class="day-card">
-      <div class="day-num">09</div>
-      <div class="day-content">
-        <div class="day-title">Check your analytics — double down on what works</div>
-        <div class="day-task">Go to Instagram Insights. Find your highest-reach post. Generate 3 more posts on the same sub-topic. The algorithm already knows people like that content. Reposting similar content on what worked is the fastest growth hack that nobody talks about.</div>
-        <span class="day-tag tag-growth">📊 Analytics</span>
-      </div>
-    </div>
-    <div class="day-card">
-      <div class="day-num">10</div>
-      <div class="day-content">
-        <div class="day-title">Collab with one similar account</div>
-        <div class="day-task">Find an account in your niche with 500–5,000 followers. DM them: "Bhai I have a [niche] page too, want to do a shoutout exchange? You post about me, I post about you." Most will say yes. One collab = 50–200 new followers for free.</div>
-        <span class="day-tag tag-growth">🤝 Collab</span>
-      </div>
-    </div>
+    <div class="day-card"><div class="day-num">04</div><div><div class="day-title">Post 1 Reel daily — NO exceptions</div><div class="day-task">From today, post exactly 1 Reel every day at 7pm. Use this tool to generate and download your reel video. Add trending audio. Consistency from day 4 separates accounts that grow from accounts that don't.</div><span class="day-tag tag-post">📸 Post daily</span></div></div>
+    <div class="day-card"><div class="day-num">07</div><div><div class="day-title">Share best post to WhatsApp groups</div><div class="day-task">Take your best Reel. Share in 10 WhatsApp groups: "Guys yeh fact pata tha kya? 😱 [link]". Ask friends/family to reshare. One viral WhatsApp push = 200–500 new followers overnight.</div><span class="day-tag tag-growth">💬 WhatsApp push</span></div></div>
+    <div class="day-card"><div class="day-num">10</div><div><div class="day-title">Collab with one similar account</div><div class="day-task">Find a page in your niche with 500–5,000 followers. DM: "Want to do a shoutout exchange? You post about me, I post about you." Most say yes. One collab = 50–200 new followers free. Use GrowTogether platform to find collab partners!</div><span class="day-tag tag-growth">🤝 Collab</span></div></div>
   </div>
 
   <div class="phase-label"><span>PHASE 3 — ACCELERATE</span><span class="phase-line"></span><span style="font-size:12px;color:var(--mut2);white-space:nowrap">Day 11–15</span></div>
   <div class="day-cards">
-    <div class="day-card">
-      <div class="day-num">11</div>
-      <div class="day-content">
-        <div class="day-title">Start a "series" — people will follow for the next part</div>
-        <div class="day-task">Post a fact with caption: "Part 1 of 5 shocking India history facts you were never taught in school 🔥 Follow to see Part 2 tomorrow". Series posts get 3–5x more follows because people don't want to miss the next part. Use this tool to generate all 5 parts at once.</div>
-        <span class="day-tag tag-post">🔥 Series hack</span>
-      </div>
-    </div>
-    <div class="day-card">
-      <div class="day-num">12</div>
-      <div class="day-content">
-        <div class="day-title">Cross-post the same content on YouTube Shorts</div>
-        <div class="day-task">Take your best 3 Instagram Reels. Upload them on YouTube Shorts too. Same video, same caption. YouTube Shorts gets millions of views with zero subscribers because YouTube actively pushes new creators. This doubles your audience with zero extra work.</div>
-        <span class="day-tag tag-growth">▶️ YouTube Shorts</span>
-      </div>
-    </div>
-    <div class="day-card">
-      <div class="day-num">14</div>
-      <div class="day-content">
-        <div class="day-title">Add a call-to-action to every post caption</div>
-        <div class="day-task">End every caption with one of these: "Follow @[yourpage] for daily facts 🔥" or "Save this post — you'll need it later 💾" or "Tag someone who doesn't know this 👇". Saved posts and tags are the two biggest signals Instagram uses to push your content to new people.</div>
-        <span class="day-tag tag-post">📌 CTA</span>
-      </div>
-    </div>
-    <div class="day-card">
-      <div class="day-num">15</div>
-      <div class="day-content">
-        <div class="day-title">Review: you should have 200–1,000 followers now</div>
-        <div class="day-task">If you followed this guide daily, you should have 200–1,000 followers by now. Your next goal is 5,000. Keep posting daily. At 5k followers: add your UPI link in bio for "support", DM brands in your niche offering a free story mention, and register on influencer platforms like Winkl or Plixxo to start getting paid deals.</div>
-        <span class="day-tag tag-growth">🚀 Milestone</span>
-      </div>
-    </div>
+    <div class="day-card"><div class="day-num">11</div><div><div class="day-title">Start a series — people follow for next part</div><div class="day-task">Post: "Part 1 of 5 shocking India history facts you were never taught 🔥 Follow to see Part 2 tomorrow". Series posts get 3–5x more follows. Generate all 5 parts at once with this tool.</div><span class="day-tag tag-post">🔥 Series hack</span></div></div>
+    <div class="day-card"><div class="day-num">12</div><div><div class="day-title">Cross-post on YouTube Shorts too</div><div class="day-task">Take your best 3 Instagram Reels. Upload same video on YouTube Shorts. YouTube pushes new creators hard — millions of views possible with zero subscribers. Double audience, zero extra work.</div><span class="day-tag tag-growth">▶️ YouTube Shorts</span></div></div>
+    <div class="day-card"><div class="day-num">15</div><div><div class="day-title">Review: 200–1,000 followers now</div><div class="day-task">If you followed this daily, you have 200–1,000 followers. Next goal: 5,000. At 5k: add UPI link in bio, DM brands for paid mentions, join Winkl or Plixxo influencer platforms for paid deals. Use AI Coach tab to get your next plan!</div><span class="day-tag tag-growth">🚀 Milestone</span></div></div>
   </div>
 </div>
 
-<!-- ── DOMAIN PANEL ── -->
-<div class="panel" id="panel-domain">
-  <div class="growth-hero">
-    <h2>FREE <span class="h-g">CUSTOM</span><br>DOMAIN SETUP</h2>
-    <p>Get a professional domain like <strong style="color:var(--grn)">factflow.js.org</strong> for free, or buy <strong style="color:var(--grn)">factflow.in</strong> for just ₹99/year.</p>
-  </div>
-
-  <div class="sec-box">
-    <div class="sec-box-title">🔒 API Key Security — How it works</div>
-    <p>Your Groq API key is stored in <strong>localStorage</strong> — that means it lives only in your browser on your device. It is <strong>never</strong> stored on any server, never in the HTML file, and never sent anywhere except directly to Groq's servers when you click Generate. Anyone who uses your site enters their own free key. This is the safest possible approach for a free hosted site.</p>
-  </div>
-
-  <div class="scard" style="margin-bottom:14px">
-    <div class="sch"><div class="sci sci-g">🆓</div><div><div class="sct">Option 1 — Completely free (js.org)</div><div class="scs">Get yourname.js.org — looks professional, costs nothing</div></div></div>
-    <div class="domain-steps">
-      <div class="dstep"><div class="ds-num">1</div><div class="ds-body"><div class="ds-title">Upload your site to GitHub Pages first</div><div class="ds-desc">Make sure your site is live at <code>yourusername.github.io/factflow</code> before continuing.</div></div></div>
-      <div class="dstep"><div class="ds-num">2</div><div class="ds-body"><div class="ds-title">Go to js.org and apply</div><div class="ds-desc">Visit <a href="https://js.org" target="_blank">js.org</a> → click "Get yours now" → submit a pull request with your desired name (e.g. <code>factflow.js.org</code>). It's free for GitHub Pages sites.</div></div></div>
-      <div class="dstep"><div class="ds-num">3</div><div class="ds-body"><div class="ds-title">Add CNAME file to your GitHub repo</div><div class="ds-desc">In your repo, create a file named <code>CNAME</code> with just this text inside: <code>factflow.js.org</code> — no other content. Commit it.</div></div></div>
-      <div class="dstep"><div class="ds-num">4</div><div class="ds-body"><div class="ds-title">Wait for approval — usually 24–48 hours</div><div class="ds-desc">js.org team reviews and approves. Once approved, your site is live at <code>factflow.js.org</code> forever for free.</div></div></div>
-    </div>
-  </div>
-
-  <div class="scard">
-    <div class="sch"><div class="sci sci-y">💰</div><div><div class="sct">Option 2 — ₹99/year (best option)</div><div class="scs">Get yourname.in — looks most professional</div></div></div>
-    <div class="domain-steps">
-      <div class="dstep"><div class="ds-num">1</div><div class="ds-body"><div class="ds-title">Buy domain from Hostinger</div><div class="ds-desc">Go to <a href="https://hostinger.in" target="_blank">hostinger.in</a> → search your domain name → buy a <code>.in</code> domain for ₹99–₹299/year. Pay via UPI. No other costs needed.</div></div></div>
-      <div class="dstep"><div class="ds-num">2</div><div class="ds-body"><div class="ds-title">Add these DNS records in Hostinger</div><div class="ds-desc">Go to Hostinger → DNS Zone → Add 4 A records pointing <code>@</code> to these IPs:<br><code>185.199.108.153</code><br><code>185.199.109.153</code><br><code>185.199.110.153</code><br><code>185.199.111.153</code><br>Then add 1 CNAME: Name <code>www</code> → Value <code>yourusername.github.io</code></div></div></div>
-      <div class="dstep"><div class="ds-num">3</div><div class="ds-body"><div class="ds-title">Set custom domain in GitHub</div><div class="ds-desc">Go to your repo → Settings → Pages → Custom domain → type your domain (e.g. <code>factflow.in</code>) → Save. Also check "Enforce HTTPS".</div></div></div>
-      <div class="dstep"><div class="ds-num">4</div><div class="ds-body"><div class="ds-title">Wait 24 hours — your site is live</div><div class="ds-desc">DNS takes up to 24 hours to propagate. After that, <code>factflow.in</code> will open your FactFlow app. Share this link everywhere — Instagram bio, WhatsApp, YouTube description.</div></div></div>
-    </div>
-  </div>
 </div>
-
-</div><!-- /panel-wrap -->
 
 <script>
-// ── STATE ──
-var KEY = '';
-var niche='Dark and shocking history of India', platform='instagram', style='shocking and mind-blowing', theme='dark';
-var allCaptions=[], speechSynth=window.speechSynthesis;
-
+// ═══ STATE ═══
+var KEY='', niche='Dark and shocking history of India', platform='instagram', style='shocking and mind-blowing', theme='dark';
+var allCaptions=[], allGeneratedData=[], chatHistory=[], coachContext='';
+var speechSynth=window.speechSynthesis;
 var THEMES={
-  dark:  {bg:['#06060f','#0f0f30','#030308'],a1:'#4a9eff',a2:'#7c6dfa',sub:'#9999cc'},
-  fire:  {bg:['#0d0200','#3d0e00','#080100'],a1:'#ff6a00',a2:'#ff3c00',sub:'#ff9966'},
+  dark:{bg:['#06060f','#0f0f30','#030308'],a1:'#4a9eff',a2:'#7c6dfa',sub:'#9999cc'},
+  fire:{bg:['#0d0200','#3d0e00','#080100'],a1:'#ff6a00',a2:'#ff3c00',sub:'#ff9966'},
   forest:{bg:['#010f04','#003d14','#000802'],a1:'#00c47a',a2:'#00ff94',sub:'#66ffbb'},
-  royal: {bg:['#05000d','#180050','#020008'],a1:'#9d4edd',a2:'#c77dff',sub:'#cc99ff'},
+  royal:{bg:['#05000d','#180050','#020008'],a1:'#9d4edd',a2:'#c77dff',sub:'#cc99ff'},
   sunset:{bg:['#0a0015','#3d0045','#050008'],a1:'#f72585',a2:'#ff6eb4',sub:'#ffaadd'},
-  gold:  {bg:['#0a0800','#3d2800','#060500'],a1:'#ffd700',a2:'#ffb300',sub:'#ffe680'}
+  gold:{bg:['#0a0800','#3d2800','#060500'],a1:'#ffd700',a2:'#ffb300',sub:'#ffe680'}
 };
 
-// ── GATE ──
-window.onload = function(){
-  var k = localStorage.getItem('ff_key');
-  if(k && k.length > 20){ KEY=k; document.getElementById('gate').style.display='none'; }
+// ═══ GATE ═══
+window.onload=function(){
+  var k=localStorage.getItem('ff_key');
+  if(k&&k.length>20){KEY=k;document.getElementById('gate').style.display='none';}
+  speechSynth.getVoices();
 };
 function startApp(){
-  var k = document.getElementById('key-inp').value.trim();
-  var ge = document.getElementById('gate-err');
-  ge.style.display='none';
-  if(!k){ ge.textContent='Please paste your Groq API key.'; ge.style.display='block'; return; }
-  if(!k.startsWith('gsk_')){ ge.textContent='Key should start with gsk_ — get one free at console.groq.com'; ge.style.display='block'; return; }
-  KEY=k; localStorage.setItem('ff_key',k);
-  document.getElementById('gate').style.display='none';
+  var k=document.getElementById('key-inp').value.trim();
+  var ge=document.getElementById('gate-err'); ge.style.display='none';
+  if(!k){ge.textContent='Please paste your Groq API key.';ge.style.display='block';return;}
+  if(!k.startsWith('gsk_')){ge.textContent='Key should start with gsk_ — get one free at console.groq.com';ge.style.display='block';return;}
+  KEY=k;localStorage.setItem('ff_key',k);document.getElementById('gate').style.display='none';
 }
-function resetKey(){
-  if(confirm('Change your Groq API key?')){
-    localStorage.removeItem('ff_key'); KEY='';
-    document.getElementById('key-inp').value='';
-    document.getElementById('gate').style.display='flex';
-  }
-}
+function resetKey(){if(confirm('Change your Groq API key?')){localStorage.removeItem('ff_key');KEY='';document.getElementById('key-inp').value='';document.getElementById('gate').style.display='flex';}}
 
-// ── TABS ──
+// ═══ TABS ═══
 function showPanel(id){
-  ['gen','grow','domain'].forEach(function(p){
-    document.getElementById('panel-'+p).classList.toggle('active', p===id);
-    var tb=document.getElementById('tab-'+p);
-    if(tb) tb.classList.toggle('active', p===id);
-  });
-  document.querySelectorAll('.mob-tab').forEach(function(t,i){
-    t.classList.toggle('active', ['gen','grow','domain'][i]===id);
-  });
+  ['gen','coach','grow'].forEach(function(p){document.getElementById('panel-'+p).classList.toggle('active',p===id);var tb=document.getElementById('tab-'+p);if(tb)tb.classList.toggle('active',p===id);});
+  document.querySelectorAll('.mob-tab').forEach(function(t,i){t.classList.toggle('active',['gen','coach','grow'][i]===id);});
   window.scrollTo({top:0,behavior:'smooth'});
 }
-function toggleMob(){ document.getElementById('mob-nav').classList.toggle('open'); }
+function toggleMob(){document.getElementById('mob-nav').classList.toggle('open');}
 
-// ── PICKERS ──
-function pickN(el){ document.querySelectorAll('.ni').forEach(function(e){e.classList.remove('on');}); el.classList.add('on'); niche=el.dataset.v; document.getElementById('custom-box').style.display=niche==='custom'?'block':'none'; }
-function pickP(el){ document.querySelectorAll('.plat-item').forEach(function(e){e.classList.remove('on');}); el.classList.add('on'); platform=el.dataset.v; }
-function pickS(el){ document.querySelectorAll('#style-row .chip').forEach(function(e){e.classList.remove('on');}); el.classList.add('on'); style=el.dataset.v; }
-function pickT(el){ document.querySelectorAll('.tdot').forEach(function(e){e.classList.remove('on');}); el.classList.add('on'); theme=el.dataset.v; }
+// ═══ PICKERS ═══
+function pickN(el){document.querySelectorAll('.ni').forEach(function(e){e.classList.remove('on');});el.classList.add('on');niche=el.dataset.v;document.getElementById('custom-box').style.display=niche==='custom'?'block':'none';}
+function pickP(el){document.querySelectorAll('.plat-item').forEach(function(e){e.classList.remove('on');});el.classList.add('on');platform=el.dataset.v;}
+function pickS(el){document.querySelectorAll('#style-row .chip').forEach(function(e){e.classList.remove('on');});el.classList.add('on');style=el.dataset.v;}
+function pickT(el){document.querySelectorAll('.tdot').forEach(function(e){e.classList.remove('on');});el.classList.add('on');theme=el.dataset.v;}
 
-// ── GENERATE ──
+// ═══ GENERATE ═══
 async function generate(){
-  var finalNiche = niche==='custom' ? document.getElementById('custom-val').value.trim() : niche;
-  if(!finalNiche){ showErr('Pick or type a niche first!'); return; }
+  var finalNiche=niche==='custom'?document.getElementById('custom-val').value.trim():niche;
+  if(!finalNiche){showErr('Pick or type a niche first!');return;}
   var count=parseInt(document.getElementById('pcount').value);
   var lang=document.getElementById('plang').value;
-  var isIG = platform==='instagram';
-
+  var isIG=platform==='instagram';
   var btn=document.getElementById('gen-btn');
-  btn.disabled=true; btn.textContent='⏳ GENERATING...';
+  btn.disabled=true;btn.textContent='⏳ GENERATING...';
   document.getElementById('prog').style.display='block';
   document.getElementById('errbox').style.display='none';
   document.getElementById('results').style.display='none';
 
-  var prompt='Generate exactly '+count+' unique viral social media posts for a '+finalNiche+' page.\n'+
-    'Platform: '+(isIG?'Instagram':'YouTube Shorts')+'\n'+
-    'Tone: '+style+'\nLanguage: '+lang+'\n\n'+
-    'Use EXACTLY this format for EACH post:\n'+
-    '[HEADLINE]\nShort punchy fact title max 10 words in CAPS style\n'+
-    '[VOICE]\nOne paragraph (3-4 sentences) to be read aloud as narration. Natural spoken language. Include the specific fact with real year/number/name. End with a wow statement.\n'+
-    '[CAPTION]\n'+(isIG
-      ? 'Full Instagram caption: 80-100 words, engaging, specific details, ends with a question to boost comments'
-      : 'YouTube Shorts script: 15-20 seconds spoken, punchy, ends with Subscribe call-to-action')+'\n'+
-    '[HASHTAGS]\n'+(isIG?'12 relevant Instagram hashtags':'8 relevant YouTube hashtags')+'\n'+
-    '---END---\n\n'+
-    'Facts must be TRUE and SPECIFIC (real years, numbers, names). Genuinely surprising.\n'+
-    'Write ALL '+count+' posts now.';
+  var prompt='Generate exactly '+count+' unique viral social media posts for a '+finalNiche+' page.\nPlatform: '+(isIG?'Instagram Reels':'YouTube Shorts')+'\nTone: '+style+'\nLanguage: '+lang+'\n\nUse EXACTLY this format for EACH post:\n[HEADLINE]\nShort punchy fact title max 10 words in CAPS style\n[VOICE]\nOne paragraph 3-4 sentences for audio narration. Natural spoken language. Include specific fact with real year/number/name. End with wow statement.\n[CAPTION]\n'+(isIG?'Full Instagram caption: 80-100 words, engaging, specific details, ends with question':'YouTube Shorts script: 15-20 seconds spoken, punchy, ends with Subscribe CTA')+'\n[HASHTAGS]\n'+(isIG?'12 relevant Instagram hashtags':'8 relevant YouTube hashtags')+'\n---END---\n\nFacts must be TRUE and SPECIFIC. Genuinely surprising. Write ALL '+count+' posts now.';
 
   try{
-    var res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},
-      body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:3000,temperature:0.8,messages:[{role:'user',content:prompt}]})
-    });
+    var res=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:3000,temperature:0.8,messages:[{role:'user',content:prompt}]})});
     var data=await res.json();
-    if(data.error){
-      if(res.status===401) throw new Error('Invalid API key. Click "Groq Free" in the nav to update your key.');
-      if(res.status===429) throw new Error('Rate limit — wait 1 minute and try again. Still completely free!');
-      throw new Error(data.error.message||'API error. Try again.');
-    }
+    if(data.error){if(res.status===401)throw new Error('Invalid API key.');if(res.status===429)throw new Error('Rate limit — wait 1 minute.');throw new Error(data.error.message||'API error.');}
     var raw=data.choices[0].message.content;
     var parts=raw.split('---END---').map(function(p){return p.trim();}).filter(function(p){return p.length>40;});
-    allCaptions=[];
-    var list=document.getElementById('posts-list');
-    list.innerHTML='';
+    allCaptions=[];allGeneratedData=[];
+    var list=document.getElementById('posts-list');list.innerHTML='';
     parts.forEach(function(part,i){
       var headline=extract(part,'HEADLINE')||('Amazing Fact #'+(i+1));
       var voice=extract(part,'VOICE')||headline;
@@ -708,143 +684,381 @@ async function generate(){
       var hashtags=extract(part,'HASHTAGS')||'';
       var full=caption+'\n\n'+hashtags;
       allCaptions.push(full);
+      allGeneratedData.push({headline,voice,caption:full});
       list.appendChild(buildCard(headline,voice,full,i,isIG));
     });
     var tags=allCaptions.reduce(function(a,c){return a+(c.match(/#\w+/g)||[]).length;},0);
     document.getElementById('m1').textContent=parts.length;
     document.getElementById('m2').textContent=parts.length;
     document.getElementById('m3').textContent=tags;
-    document.getElementById('res-count').textContent=parts.length+' posts ready';
+    document.getElementById('res-count').textContent=parts.length+' ready';
     document.getElementById('results').style.display='block';
     setTimeout(function(){document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});},100);
-  }catch(e){ showErr(e.message||'Something went wrong. Try again.'); }
-  finally{ btn.disabled=false; btn.textContent='✦ GENERATE MY POSTS'; document.getElementById('prog').style.display='none'; }
+  }catch(e){showErr(e.message||'Something went wrong.');}
+  finally{btn.disabled=false;btn.textContent='✦ GENERATE POSTS + REELS';document.getElementById('prog').style.display='none';}
 }
 
 function extract(text,tag){
   var re=new RegExp('\\['+tag+'\\][\\s]*([\\s\\S]*?)(?=\\[[A-Z]+\\]|---END---|$)');
-  var m=text.match(re);
-  return m?m[1].trim():'';
+  var m=text.match(re);return m?m[1].trim():'';
 }
 
-// ── BUILD CARD ──
+// ═══ BUILD CARD ═══
 function buildCard(headline,voice,fullCaption,idx,isIG){
-  var card=document.createElement('div');
-  card.className='pcard';
+  var card=document.createElement('div');card.className='pcard';
 
-  // Canvas
-  var cw=document.createElement('div'); cw.className='pcard-canvas-wrap';
-  var canvas=document.createElement('canvas'); canvas.className='pcard-canvas';
-  canvas.width=1080; canvas.height=1080;
-  cw.appendChild(canvas); card.appendChild(cw);
-  drawCard(canvas,headline,idx+1,theme);
+  // VIDEO REEL SECTION
+  var vidSec=document.createElement('div');vidSec.className='video-section';
+  var vidLabel=document.createElement('div');vidLabel.className='video-label';
+  vidLabel.innerHTML='🎬 REEL VIDEO — Day '+(idx+1)+' — Download & Post';
+  vidSec.appendChild(vidLabel);
 
-  // Audio bar
-  var bar=document.createElement('div'); bar.className='audio-bar';
-  var playBtn=document.createElement('button'); playBtn.className='play-btn'; playBtn.textContent='▶';
+  var vidContainer=document.createElement('div');vidContainer.className='video-container';
+  var reelCanvas=document.createElement('canvas');reelCanvas.className='video-canvas';
+  reelCanvas.width=540;reelCanvas.height=960;
+  vidContainer.appendChild(reelCanvas);
+  vidSec.appendChild(vidContainer);
+
+  // Start animation preview immediately
+  startReelAnimation(reelCanvas,headline,idx+1,theme,voice);
+
+  var vidBtns=document.createElement('div');vidBtns.className='video-btns';
+
+  var dlBtn=document.createElement('button');dlBtn.className='vbtn primary';dlBtn.innerHTML='⬇️ Download Reel Video';
+  var renderProg=document.createElement('div');renderProg.className='render-prog';
+  var renderFill=document.createElement('div');renderFill.className='render-fill';
+  renderProg.appendChild(renderFill);
+
+  dlBtn.onclick=function(){
+    dlBtn.disabled=true;dlBtn.textContent='⏳ Rendering...';
+    renderProg.style.display='block';
+    renderVideo(reelCanvas,headline,voice,idx+1,theme,renderFill,function(){
+      dlBtn.disabled=false;dlBtn.innerHTML='⬇️ Download Reel Video';
+      renderProg.style.display='none';
+    });
+  };
+
+  var saveImgBtn=document.createElement('button');saveImgBtn.className='vbtn';saveImgBtn.innerHTML='🖼️ Save Image';
+  saveImgBtn.onclick=function(){
+    var a=document.createElement('a');a.download='factflow-day'+(idx+1)+'.png';a.href=reelCanvas.toDataURL('image/png');a.click();
+  };
+
+  vidBtns.appendChild(dlBtn);vidBtns.appendChild(saveImgBtn);
+  vidSec.appendChild(vidBtns);vidSec.appendChild(renderProg);
+  card.appendChild(vidSec);
+
+  // AUDIO BAR
+  var bar=document.createElement('div');bar.className='audio-bar';
+  var playBtn=document.createElement('button');playBtn.className='play-btn';playBtn.textContent='▶';
   var speaking=false;
   playBtn.onclick=function(){
-    if(speaking){ speechSynth.cancel(); speaking=false; playBtn.textContent='▶'; progFill.style.width='0%'; return; }
+    if(speaking){speechSynth.cancel();speaking=false;playBtn.textContent='▶';progFill.style.width='0%';return;}
     var utt=new SpeechSynthesisUtterance(voice);
-    utt.rate=0.88; utt.pitch=1.05; utt.lang='en-IN';
+    utt.rate=0.88;utt.pitch=1.05;utt.lang='en-IN';
     var voices=speechSynth.getVoices();
-    var preferred=voices.filter(function(v){ return v.lang.includes('IN')||v.name.includes('India')||v.name.includes('Rishi')||v.name.includes('Veena'); });
-    if(preferred.length>0) utt.voice=preferred[0];
-    utt.onstart=function(){speaking=true; playBtn.textContent='■';};
-    utt.onend=function(){speaking=false; playBtn.textContent='▶'; progFill.style.width='100%'; setTimeout(function(){progFill.style.width='0%';},800);};
-    utt.onerror=function(){speaking=false; playBtn.textContent='▶';};
-    var wordCount=voice.split(' ').length;
-    var duration=wordCount/2.5*1000;
-    var start=Date.now();
-    var timer=setInterval(function(){ if(!speaking){clearInterval(timer);return;} var pct=Math.min(100,(Date.now()-start)/duration*100); progFill.style.width=pct+'%'; },100);
+    var preferred=voices.filter(function(v){return v.lang.includes('IN')||v.name.includes('India')||v.name.includes('Rishi');});
+    if(preferred.length>0)utt.voice=preferred[0];
+    utt.onstart=function(){speaking=true;playBtn.textContent='■';};
+    utt.onend=function(){speaking=false;playBtn.textContent='▶';progFill.style.width='100%';setTimeout(function(){progFill.style.width='0%';},800);};
+    var wc=voice.split(' ').length,dur=wc/2.5*1000,start=Date.now();
+    var timer=setInterval(function(){if(!speaking){clearInterval(timer);return;}progFill.style.width=Math.min(100,(Date.now()-start)/dur*100)+'%';},100);
     speechSynth.speak(utt);
   };
-  var aiInfo=document.createElement('div'); aiInfo.className='audio-info';
-  aiInfo.innerHTML='<div class="audio-title">🎙️ AI Voice — Day '+(idx+1)+'</div><div class="audio-sub">Click ▶ to hear the fact read aloud</div>';
-  var progW=document.createElement('div'); progW.className='audio-prog-wrap';
-  var progFill=document.createElement('div'); progFill.className='audio-prog-fill';
+  var aiInfo=document.createElement('div');aiInfo.className='audio-info';
+  aiInfo.innerHTML='<div class="audio-title">🎙️ AI Voice Narration — Day '+(idx+1)+'</div><div class="audio-sub">Play to hear the fact read aloud</div>';
+  var progW=document.createElement('div');progW.className='audio-prog-wrap';
+  var progFill=document.createElement('div');progFill.className='audio-prog-fill';
   progW.appendChild(progFill);
-  var musicBtn=document.createElement('span'); musicBtn.className='music-toggle'; musicBtn.textContent='🎵'; musicBtn.title='Background music (use phone for best results)';
-  musicBtn.onclick=function(){ musicBtn.classList.toggle('on'); };
-  bar.appendChild(playBtn); bar.appendChild(aiInfo); bar.appendChild(progW); bar.appendChild(musicBtn);
+  bar.appendChild(playBtn);bar.appendChild(aiInfo);bar.appendChild(progW);
   card.appendChild(bar);
 
-  // Body
-  var body=document.createElement('div'); body.className='pbody';
-  var head=document.createElement('div'); head.className='phead';
-  head.innerHTML='<span class="pday">DAY '+(idx+1)+'</span><span class="pfmt">'+(isIG?'📸 Instagram':'▶️ YouTube')+'</span>';
+  // POST BODY
+  var body=document.createElement('div');body.className='pbody';
+  var head=document.createElement('div');head.className='phead';
+  head.innerHTML='<span class="pday">DAY '+(idx+1)+'</span><span class="pfmt">'+(isIG?'📸 Instagram Reel':'▶️ YouTube Short')+'</span>';
   body.appendChild(head);
-  var cap=document.createElement('div'); cap.className='pcap'; cap.textContent=fullCaption;
-  var exp=document.createElement('span'); exp.className='expand-lnk'; exp.textContent='Show more ↓';
-  exp.onclick=function(){ cap.classList.toggle('open'); exp.textContent=cap.classList.contains('open')?'Show less ↑':'Show more ↓'; };
-  body.appendChild(cap); body.appendChild(exp);
+  var cap=document.createElement('div');cap.className='pcap';cap.textContent=fullCaption;
+  var exp=document.createElement('span');exp.className='expand-lnk';exp.textContent='Show more ↓';
+  exp.onclick=function(){cap.classList.toggle('open');exp.textContent=cap.classList.contains('open')?'Show less ↑':'Show more ↓';};
+  body.appendChild(cap);body.appendChild(exp);
   card.appendChild(body);
 
-  // Actions
-  var acts=document.createElement('div'); acts.className='pacts';
-  var cb=makeBtn('📋 Copy','pa pa-g',function(){ navigator.clipboard.writeText(fullCaption).catch(function(){}); cb.textContent='✅ Copied!'; setTimeout(function(){cb.textContent='📋 Copy';},1800); });
-  var db=makeBtn('⬇️ Save image','pa',function(){ var a=document.createElement('a'); a.download='factflow-day'+(idx+1)+'.png'; a.href=canvas.toDataURL('image/png'); a.click(); });
+  // ACTIONS
+  var acts=document.createElement('div');acts.className='pacts';
+  var cb=makeBtn('📋 Copy','pa pa-g',function(){navigator.clipboard.writeText(fullCaption).catch(function(){});cb.textContent='✅ Copied!';setTimeout(function(){cb.textContent='📋 Copy';},1800);});
   var pb=isIG
-    ? makeBtn('📸 Post to IG','pa pa-ig',function(){ navigator.clipboard.writeText(fullCaption).catch(function(){}); pb.textContent='✅ Caption copied!'; setTimeout(function(){ window.open('https://www.instagram.com/','_blank'); pb.textContent='📸 Post to IG'; },800); })
-    : makeBtn('▶️ YouTube Studio','pa pa-yt',function(){ navigator.clipboard.writeText(fullCaption).catch(function(){}); pb.textContent='✅ Script copied!'; setTimeout(function(){ window.open('https://studio.youtube.com/','_blank'); pb.textContent='▶️ YouTube Studio'; },800); });
-  acts.appendChild(cb); acts.appendChild(db); acts.appendChild(pb);
+    ?makeBtn('📸 Open IG','pa pa-ig',function(){navigator.clipboard.writeText(fullCaption).catch(function(){});pb.textContent='✅ Caption copied!';setTimeout(function(){window.open('https://www.instagram.com/','_blank');pb.textContent='📸 Open IG';},600);})
+    :makeBtn('▶️ YouTube Studio','pa pa-yt',function(){navigator.clipboard.writeText(fullCaption).catch(function(){});pb.textContent='✅ Copied!';setTimeout(function(){window.open('https://studio.youtube.com/','_blank');pb.textContent='▶️ YouTube Studio';},600);});
+  acts.appendChild(cb);acts.appendChild(pb);
   card.appendChild(acts);
   return card;
 }
 
-function makeBtn(lbl,cls,fn){ var b=document.createElement('button'); b.className=cls; b.textContent=lbl; b.onclick=fn; return b; }
+function makeBtn(lbl,cls,fn){var b=document.createElement('button');b.className=cls;b.textContent=lbl;b.onclick=fn;return b;}
 
-// ── DRAW CANVAS ──
-function drawCard(canvas,headline,day,themeName){
+// ═══ REEL ANIMATION ═══
+var animFrames={};
+function startReelAnimation(canvas,headline,day,themeName,voice){
+  var cid=canvas._animId=Math.random();
   var ctx=canvas.getContext('2d');
-  var W=1080,H=1080,t=THEMES[themeName]||THEMES.dark;
-  var bg=ctx.createLinearGradient(0,0,W,H);
-  bg.addColorStop(0,t.bg[0]); bg.addColorStop(.5,t.bg[1]); bg.addColorStop(1,t.bg[2]);
-  ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
-  ctx.strokeStyle='rgba(255,255,255,0.025)'; ctx.lineWidth=1;
-  for(var x=0;x<W;x+=54){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
-  for(var y=0;y<H;y+=54){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-  var g1=ctx.createRadialGradient(180,180,0,180,180,420); g1.addColorStop(0,t.a1+'30'); g1.addColorStop(1,'transparent'); ctx.fillStyle=g1; ctx.fillRect(0,0,W,H);
-  var g2=ctx.createRadialGradient(900,900,0,900,900,360); g2.addColorStop(0,t.a2+'28'); g2.addColorStop(1,'transparent'); ctx.fillStyle=g2; ctx.fillRect(0,0,W,H);
-  var top=ctx.createLinearGradient(0,0,W,0); top.addColorStop(0,t.a1); top.addColorStop(1,t.a2);
-  ctx.fillStyle=top; ctx.fillRect(0,0,W,6);
-  ctx.save(); ctx.fillStyle='rgba(255,255,255,0.07)'; ctx.beginPath(); ctx.roundRect(56,52,124,44,22); ctx.fill();
-  ctx.fillStyle=t.a1; ctx.font='bold 18px Plus Jakarta Sans,system-ui'; ctx.textAlign='center'; ctx.fillText('DAY '+day,118,80); ctx.restore();
-  ctx.fillStyle='rgba(255,255,255,0.35)'; ctx.font='500 18px Plus Jakarta Sans,system-ui'; ctx.textAlign='right'; ctx.fillText('FactFlow AI',W-56,80);
-  var dl=ctx.createLinearGradient(56,0,W-56,0); dl.addColorStop(0,'transparent'); dl.addColorStop(.3,t.a1+'70'); dl.addColorStop(.7,t.a2+'70'); dl.addColorStop(1,'transparent');
-  ctx.strokeStyle=dl; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(56,126); ctx.lineTo(W-56,126); ctx.stroke();
-  ctx.textAlign='center';
-  var lines=wrapText(ctx,headline.toUpperCase(),W-100,'bold 70px Plus Jakarta Sans,system-ui');
-  var lh=84, totalH=lines.length*lh, sy=H/2-totalH/2+20;
-  lines.forEach(function(line,i){
-    var tg=ctx.createLinearGradient(0,0,W,0); tg.addColorStop(0,t.a1); tg.addColorStop(1,t.a2);
-    ctx.fillStyle=tg; ctx.font='bold 70px Plus Jakarta Sans,system-ui'; ctx.fillText(line,W/2,sy+i*lh);
-  });
-  var btm=ctx.createLinearGradient(0,H-160,0,H); btm.addColorStop(0,'transparent'); btm.addColorStop(1,'rgba(0,0,0,0.7)');
-  ctx.fillStyle=btm; ctx.fillRect(0,H-160,W,160);
-  ctx.fillStyle=top; ctx.fillRect(0,H-5,W,5);
-  ctx.fillStyle='rgba(255,255,255,0.5)'; ctx.font='500 22px Plus Jakarta Sans,system-ui'; ctx.textAlign='center'; ctx.fillText('Follow for daily facts ✦',W/2,H-28);
+  var W=canvas.width,H=canvas.height;
+  var t=THEMES[themeName]||THEMES.dark;
+  var frame=0;
+  var words=voice.split(' ');
+  var wordIdx=0;
+
+  function drawFrame(){
+    if(canvas._animId!==cid)return;
+    frame++;
+    var bg=ctx.createLinearGradient(0,0,W,H);
+    bg.addColorStop(0,t.bg[0]);bg.addColorStop(.5,t.bg[1]);bg.addColorStop(1,t.bg[2]);
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+
+    // Animated particles
+    ctx.save();
+    for(var i=0;i<12;i++){
+      var x=(Math.sin(frame*0.02+i*0.8)*0.5+0.5)*W;
+      var y=(Math.cos(frame*0.015+i*1.1)*0.5+0.5)*H;
+      var r=2+Math.sin(frame*0.03+i)*1.5;
+      var g2=ctx.createRadialGradient(x,y,0,x,y,r*8);
+      g2.addColorStop(0,t.a1+'60');g2.addColorStop(1,'transparent');
+      ctx.fillStyle=g2;ctx.beginPath();ctx.arc(x,y,r*8,0,Math.PI*2);ctx.fill();
+    }
+    ctx.restore();
+
+    // Glowing grid lines
+    ctx.save();ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=1;
+    for(var x2=0;x2<W;x2+=54){ctx.beginPath();ctx.moveTo(x2,0);ctx.lineTo(x2,H);ctx.stroke();}
+    for(var y2=0;y2<H;y2+=54){ctx.beginPath();ctx.moveTo(0,y2);ctx.lineTo(W,y2);ctx.stroke();}
+    ctx.restore();
+
+    // Top bar glow
+    var topG=ctx.createLinearGradient(0,0,W,0);topG.addColorStop(0,t.a1);topG.addColorStop(1,t.a2);
+    ctx.fillStyle=topG;ctx.fillRect(0,0,W,6);
+
+    // Pulsing accent circle
+    ctx.save();
+    var pulse=Math.sin(frame*0.04)*0.3+0.7;
+    var cg=ctx.createRadialGradient(W/2,H*0.38,0,W/2,H*0.38,W*0.55*pulse);
+    cg.addColorStop(0,t.a1+'25');cg.addColorStop(.5,t.a2+'10');cg.addColorStop(1,'transparent');
+    ctx.fillStyle=cg;ctx.fillRect(0,0,W,H);
+    ctx.restore();
+
+    // DAY badge
+    ctx.save();ctx.fillStyle='rgba(255,255,255,0.08)';ctx.beginPath();ctx.roundRect(32,36,90,32,16);ctx.fill();
+    ctx.fillStyle=t.a1;ctx.font='bold 14px Plus Jakarta Sans,system-ui';ctx.textAlign='center';ctx.fillText('DAY '+day,77,57);ctx.restore();
+
+    // Brand name
+    ctx.fillStyle='rgba(255,255,255,0.4)';ctx.font='500 14px Plus Jakarta Sans,system-ui';ctx.textAlign='right';ctx.fillText('FactFlow AI',W-32,57);
+
+    // Animated separator line
+    var lineW=Math.min(W-64,(frame*8));
+    var dl=ctx.createLinearGradient(32,0,32+lineW,0);dl.addColorStop(0,'transparent');dl.addColorStop(.3,t.a1+'90');dl.addColorStop(.7,t.a2+'90');dl.addColorStop(1,'transparent');
+    ctx.strokeStyle=dl;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(32,96);ctx.lineTo(32+lineW,96);ctx.stroke();
+
+    // Headline with shimmer
+    ctx.save();ctx.textAlign='center';
+    var headLines=wrapText(ctx,headline.toUpperCase(),W-64,'bold 52px Plus Jakarta Sans,system-ui');
+    var lh=62,totalH=headLines.length*lh,sy=H*0.38-totalH/2+20;
+    var shimmer=(Math.sin(frame*0.03)*0.5+0.5);
+    headLines.forEach(function(line,i){
+      var offset=Math.max(0,(frame-i*8)*3);var alpha=Math.min(1,offset/60);
+      var tg=ctx.createLinearGradient(W*shimmer-W,0,W*shimmer,0);
+      tg.addColorStop(0,t.a1);tg.addColorStop(.5,t.a2);tg.addColorStop(1,t.a1);
+      ctx.fillStyle=tg;ctx.globalAlpha=alpha;ctx.font='bold 52px Plus Jakarta Sans,system-ui';
+      ctx.fillText(line,W/2,sy+i*lh);
+    });
+    ctx.restore();
+
+    // Scrolling word highlight (simulates teleprompter)
+    if(frame%18===0&&wordIdx<words.length)wordIdx=Math.min(wordIdx+1,words.length-1);
+    var visibleWords=words.slice(Math.max(0,wordIdx-3),wordIdx+4);
+    var voiceText=visibleWords.join(' ');
+    ctx.save();
+    var btmBg=ctx.createLinearGradient(0,H*0.72,0,H*0.88);btmBg.addColorStop(0,'transparent');btmBg.addColorStop(1,'rgba(0,0,0,0.85)');
+    ctx.fillStyle=btmBg;ctx.fillRect(0,H*0.72,W,H*0.16);
+    ctx.textAlign='center';ctx.fillStyle='rgba(255,255,255,0.9)';ctx.font='500 20px Plus Jakarta Sans,system-ui';
+    wrapText(ctx,voiceText,W-64,'500 20px Plus Jakarta Sans,system-ui').slice(0,3).forEach(function(l,i){ctx.fillText(l,W/2,H*0.76+i*26);});
+    ctx.restore();
+
+    // Animated progress bar at bottom
+    var progPct=(frame%240)/240;
+    ctx.fillStyle='rgba(255,255,255,0.1)';ctx.fillRect(0,H-8,W,8);
+    var pbg=ctx.createLinearGradient(0,0,W*progPct,0);pbg.addColorStop(0,t.a1);pbg.addColorStop(1,t.a2);
+    ctx.fillStyle=pbg;ctx.fillRect(0,H-8,W*progPct,8);
+
+    // Follow CTA
+    var ctaBg=ctx.createLinearGradient(0,H*0.88,0,H-14);ctaBg.addColorStop(0,'rgba(0,0,0,0)');ctaBg.addColorStop(1,'rgba(0,0,0,0.8)');
+    ctx.fillStyle=ctaBg;ctx.fillRect(0,H*0.88,W,H*0.12-14);
+    ctx.fillStyle=topG;ctx.fillRect(0,H-5,W,5);
+    ctx.fillStyle='rgba(255,255,255,0.6)';ctx.font='500 18px Plus Jakarta Sans,system-ui';ctx.textAlign='center';
+    ctx.fillText('Follow for daily facts ✦',W/2,H-22);
+
+    requestAnimationFrame(drawFrame);
+  }
+  drawFrame();
 }
 
-function wrapText(ctx,text,maxW,font){
-  ctx.font=font; var words=text.split(' '),lines=[],cur='';
-  words.forEach(function(w){ var t=cur?cur+' '+w:w; if(ctx.measureText(t).width>maxW&&cur){lines.push(cur);cur=w;}else cur=t; });
-  if(cur)lines.push(cur); return lines;
+// ═══ RENDER VIDEO ═══
+function renderVideo(canvas,headline,voice,day,themeName,progressFill,onDone){
+  var W=canvas.width,H=canvas.height;
+  var offCanvas=document.createElement('canvas');offCanvas.width=W;offCanvas.height=H;
+  var offCtx=offCanvas.getContext('2d');
+  var t=THEMES[themeName]||THEMES.dark;
+  var chunks=[],totalFrames=180,fps=30;
+  var stream=offCanvas.captureStream(fps);
+  var rec=new MediaRecorder(stream,{mimeType:MediaRecorder.isTypeSupported('video/webm;codecs=vp9')?'video/webm;codecs=vp9':'video/webm',videoBitsPerSecond:4000000});
+  rec.ondataavailable=function(e){if(e.data.size>0)chunks.push(e.data);};
+  rec.onstop=function(){
+    var blob=new Blob(chunks,{type:'video/webm'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');a.href=url;a.download='factflow-reel-day'+day+'.webm';a.click();
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    onDone();
+  };
+  rec.start();
+  var f=0,words=voice.split(' '),wordIdx=0;
+  function renderF(){
+    if(f>=totalFrames){rec.stop();return;}
+    progressFill.style.width=(f/totalFrames*100)+'%';
+    f++;if(f%18===0&&wordIdx<words.length)wordIdx=Math.min(wordIdx+1,words.length-1);
+    var bg=offCtx.createLinearGradient(0,0,W,H);
+    bg.addColorStop(0,t.bg[0]);bg.addColorStop(.5,t.bg[1]);bg.addColorStop(1,t.bg[2]);
+    offCtx.fillStyle=bg;offCtx.fillRect(0,0,W,H);
+    // particles
+    for(var i=0;i<12;i++){var px=(Math.sin(f*0.02+i*0.8)*0.5+0.5)*W,py=(Math.cos(f*0.015+i*1.1)*0.5+0.5)*H,pr=2+Math.sin(f*0.03+i)*1.5;var pg2=offCtx.createRadialGradient(px,py,0,px,py,pr*8);pg2.addColorStop(0,t.a1+'60');pg2.addColorStop(1,'transparent');offCtx.fillStyle=pg2;offCtx.beginPath();offCtx.arc(px,py,pr*8,0,Math.PI*2);offCtx.fill();}
+    // grid
+    offCtx.strokeStyle='rgba(255,255,255,0.03)';offCtx.lineWidth=1;
+    for(var gx=0;gx<W;gx+=54){offCtx.beginPath();offCtx.moveTo(gx,0);offCtx.lineTo(gx,H);offCtx.stroke();}
+    for(var gy=0;gy<H;gy+=54){offCtx.beginPath();offCtx.moveTo(0,gy);offCtx.lineTo(W,gy);offCtx.stroke();}
+    // top bar
+    var tg=offCtx.createLinearGradient(0,0,W,0);tg.addColorStop(0,t.a1);tg.addColorStop(1,t.a2);
+    offCtx.fillStyle=tg;offCtx.fillRect(0,0,W,6);
+    // badges
+    offCtx.fillStyle='rgba(255,255,255,0.08)';offCtx.beginPath();offCtx.roundRect(32,36,90,32,16);offCtx.fill();
+    offCtx.fillStyle=t.a1;offCtx.font='bold 14px Plus Jakarta Sans,system-ui';offCtx.textAlign='center';offCtx.fillText('DAY '+day,77,57);
+    offCtx.fillStyle='rgba(255,255,255,0.4)';offCtx.font='500 14px Plus Jakarta Sans,system-ui';offCtx.textAlign='right';offCtx.fillText('FactFlow AI',W-32,57);
+    // separator
+    var lw=Math.min(W-64,f*8),dl=offCtx.createLinearGradient(32,0,32+lw,0);dl.addColorStop(0,'transparent');dl.addColorStop(.3,t.a1+'90');dl.addColorStop(.7,t.a2+'90');dl.addColorStop(1,'transparent');
+    offCtx.strokeStyle=dl;offCtx.lineWidth=1.5;offCtx.beginPath();offCtx.moveTo(32,96);offCtx.lineTo(32+lw,96);offCtx.stroke();
+    // headline
+    offCtx.textAlign='center';var hl=wrapText(offCtx,headline.toUpperCase(),W-64,'bold 52px Plus Jakarta Sans,system-ui');var lh=62,sy=H*0.38-hl.length*lh/2+20,shimmer=(Math.sin(f*0.03)*0.5+0.5);
+    hl.forEach(function(line,i){var offset=Math.max(0,(f-i*8)*3),alpha=Math.min(1,offset/60);var htg=offCtx.createLinearGradient(W*shimmer-W,0,W*shimmer,0);htg.addColorStop(0,t.a1);htg.addColorStop(.5,t.a2);htg.addColorStop(1,t.a1);offCtx.fillStyle=htg;offCtx.globalAlpha=alpha;offCtx.font='bold 52px Plus Jakarta Sans,system-ui';offCtx.fillText(line,W/2,sy+i*lh);});offCtx.globalAlpha=1;
+    // word scroll
+    var vw=words.slice(Math.max(0,wordIdx-3),wordIdx+4).join(' ');
+    var btmBg=offCtx.createLinearGradient(0,H*0.72,0,H*0.88);btmBg.addColorStop(0,'transparent');btmBg.addColorStop(1,'rgba(0,0,0,0.85)');
+    offCtx.fillStyle=btmBg;offCtx.fillRect(0,H*0.72,W,H*0.16);
+    offCtx.textAlign='center';offCtx.fillStyle='rgba(255,255,255,0.9)';offCtx.font='500 20px Plus Jakarta Sans,system-ui';
+    wrapText(offCtx,vw,W-64,'500 20px Plus Jakarta Sans,system-ui').slice(0,3).forEach(function(l,i){offCtx.fillText(l,W/2,H*0.76+i*26);});
+    // progress bar
+    var pp=f/totalFrames;offCtx.fillStyle='rgba(255,255,255,0.1)';offCtx.fillRect(0,H-8,W,8);var pbg=offCtx.createLinearGradient(0,0,W*pp,0);pbg.addColorStop(0,t.a1);pbg.addColorStop(1,t.a2);offCtx.fillStyle=pbg;offCtx.fillRect(0,H-8,W*pp,8);
+    // bottom
+    var ctaBg=offCtx.createLinearGradient(0,H*0.88,0,H-14);ctaBg.addColorStop(0,'rgba(0,0,0,0)');ctaBg.addColorStop(1,'rgba(0,0,0,0.8)');
+    offCtx.fillStyle=ctaBg;offCtx.fillRect(0,H*0.88,W,H*0.12-14);
+    offCtx.fillStyle=tg;offCtx.fillRect(0,H-5,W,5);
+    offCtx.fillStyle='rgba(255,255,255,0.6)';offCtx.font='500 18px Plus Jakarta Sans,system-ui';offCtx.textAlign='center';offCtx.fillText('Follow for daily facts ✦',W/2,H-22);
+    setTimeout(renderF,1000/fps);
+  }
+  renderF();
 }
 
-function copyAll(){
-  var text=allCaptions.map(function(c,i){return '=== POST '+(i+1)+' ===\n'+c;}).join('\n\n');
-  navigator.clipboard.writeText(text).catch(function(){});
-  var b=event.currentTarget; var o=b.textContent;
-  b.textContent='✅ All captions copied!'; setTimeout(function(){b.textContent=o;},2000);
-}
-function showErr(msg){ var e=document.getElementById('errbox'); e.textContent=msg; e.style.display='block'; }
+// ═══ WRAP TEXT ═══
+function wrapText(ctx,text,maxW,font){ctx.font=font;var words=text.split(' '),lines=[],cur='';words.forEach(function(w){var t2=cur?cur+' '+w:w;if(ctx.measureText(t2).width>maxW&&cur){lines.push(cur);cur=w;}else cur=t2;});if(cur)lines.push(cur);return lines;}
 
-// PWA manifest inline
-var m={name:'FactFlow AI',short_name:'FactFlow',start_url:'.',display:'standalone',background_color:'#050508',theme_color:'#050508',icons:[{src:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%23050508"/><text y=".9em" font-size="80" x="10">✦</text></svg>',sizes:'192x192',type:'image/svg+xml'}]};
-var blob=new Blob([JSON.stringify(m)],{type:'application/json'});
-var url=URL.createObjectURL(blob);
-document.getElementById('manifest-placeholder').href=url;
+function copyAll(){var text=allCaptions.map(function(c,i){return '=== POST '+(i+1)+' ===\n'+c;}).join('\n\n');navigator.clipboard.writeText(text).catch(function(){});var b=event.currentTarget,o=b.textContent;b.textContent='✅ All copied!';setTimeout(function(){b.textContent=o;},2000);}
+function showErr(msg){var e=document.getElementById('errbox');e.textContent=msg;e.style.display='block';}
+
+// ═══ AI COACH ═══
+async function analyzeStats(){
+  var platform2=document.getElementById('coach-platform').value;
+  var followers=document.getElementById('coach-followers').value||'0';
+  var views=document.getElementById('coach-views').value||'0';
+  var likes=document.getElementById('coach-likes').value||'0';
+  var duration=document.getElementById('coach-duration').value;
+  var frequency=document.getElementById('coach-frequency').value;
+  var nicheV=document.getElementById('coach-niche').value||'facts page';
+  var problem=document.getElementById('coach-problem').value||'not sure what to do next';
+
+  var btn=document.getElementById('analyze-btn');
+  btn.disabled=true;btn.textContent='🤖 Analyzing your stats...';
+
+  coachContext='Creator profile:\n- Platform: '+platform2+'\n- Followers/Subscribers: '+followers+'\n- Avg Views per post: '+views+'\n- Avg Likes per post: '+likes+'\n- Posting duration: '+duration+'\n- Posting frequency: '+frequency+'\n- Niche: '+nicheV+'\n- Main problem: '+problem;
+
+  var prompt=coachContext+'\n\nYou are an expert Indian social media growth coach. Analyze these stats and give:\n1. A direct assessment of where they are right now (1-2 lines, be honest even if results are poor)\n2. Exactly 4 specific action steps they should take THIS WEEK, numbered, each with a specific action and why\n3. One "quick win" they can do TODAY in 30 minutes to see results fast\n4. A realistic goal for next 30 days based on their current trajectory\n\nBe direct, specific, encouraging but honest. Mention specific numbers. No fluff. Write in a coaching tone. Keep total response under 350 words.';
+
+  try{
+    var res=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:600,temperature:0.7,messages:[{role:'user',content:prompt}]})});
+    var data=await res.json();
+    if(data.error)throw new Error(data.error.message);
+    var planText=data.choices[0].message.content;
+    showPlan(planText,followers,views,platform2);
+    initChat(planText);
+  }catch(e){alert('Error: '+e.message);}
+  finally{btn.disabled=false;btn.textContent='🤖 GET MY GROWTH PLAN';}
+}
+
+function showPlan(planText,followers,views,platform2){
+  var out=document.getElementById('plan-output');
+  var fNum=parseInt(followers)||0;
+  var vNum=parseInt(views)||0;
+  var score=Math.min(100,Math.round((fNum/1000*30)+(vNum/500*40)+(fNum>0?30:0)));
+  out.style.display='block';
+  out.innerHTML='<div class="plan-card"><div class="plan-header"><div class="plan-title">YOUR GROWTH PLAN ✦</div><div class="plan-sub">Based on your '+platform2+' stats · Updated now</div></div><div style="padding:16px 20px;border-bottom:1px solid var(--bd);display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center"><div><div style="font-family:var(--display);font-size:22px;color:var(--grn)">'+followers||'0'+'</div><div style="font-size:10px;color:var(--mut);margin-top:2px">FOLLOWERS</div></div><div><div style="font-family:var(--display);font-size:22px;color:var(--pu2)">'+views||'0'+'</div><div style="font-size:10px;color:var(--mut);margin-top:2px">AVG VIEWS</div></div><div><div style="font-family:var(--display);font-size:22px;color:var(--yel)">'+score+'</div><div style="font-size:10px;color:var(--mut);margin-top:2px">GROWTH SCORE</div></div></div><div style="padding:16px 20px"><div style="font-size:13px;line-height:1.75;color:var(--txt);white-space:pre-wrap">'+planText+'</div></div></div>';
+}
+
+function initChat(initialPlan){
+  var chatSection=document.getElementById('chat-section');
+  chatSection.style.display='block';
+  var msgs=document.getElementById('chat-msgs');
+  msgs.innerHTML='';
+  chatHistory=[{role:'system',content:'You are FactFlow AI Coach, an expert Indian social media growth coach. You are talking to a creator with these stats:\n\n'+coachContext+'\n\nYou already gave them this growth plan:\n'+initialPlan+'\n\nNow answer their follow-up questions. Be direct, specific, encouraging. Give actionable advice. Keep responses concise (under 150 words). Mention specific numbers when possible. You know about Instagram Reels, YouTube Shorts, Indian audience behavior, and content creation.'}];
+  addMsg('ai','I\'ve analyzed your stats and created your growth plan above! 📊\n\nAsk me anything — "why am I getting 0 views?", "what time should I post today?", or "how do I make my reel viral?" I\'m here to help you grow! 🚀');
+  setTimeout(function(){chatSection.scrollIntoView({behavior:'smooth',block:'start'});},300);
+}
+
+function addMsg(role,text){
+  var msgs=document.getElementById('chat-msgs');
+  var msg=document.createElement('div');msg.className='msg '+role;
+  var bubble=document.createElement('div');bubble.className='msg-bubble';bubble.textContent=text;
+  var time=document.createElement('div');time.className='msg-time';
+  time.textContent=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  msg.appendChild(bubble);msg.appendChild(time);msgs.appendChild(msg);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function showTyping(){
+  var msgs=document.getElementById('chat-msgs');
+  var typing=document.createElement('div');typing.className='msg ai';typing.id='typing-ind';
+  typing.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
+  msgs.appendChild(typing);msgs.scrollTop=msgs.scrollHeight;
+}
+
+function removeTyping(){var t=document.getElementById('typing-ind');if(t)t.remove();}
+
+async function sendChat(){
+  var inp=document.getElementById('chat-inp');
+  var text=inp.value.trim();if(!text)return;
+  var send=document.getElementById('chat-send');
+  addMsg('user',text);chatHistory.push({role:'user',content:text});
+  inp.value='';send.disabled=true;showTyping();
+  try{
+    var res=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:300,temperature:0.7,messages:chatHistory})});
+    var data=await res.json();
+    if(data.error)throw new Error(data.error.message);
+    var reply=data.choices[0].message.content;
+    chatHistory.push({role:'assistant',content:reply});
+    removeTyping();addMsg('ai',reply);
+  }catch(e){removeTyping();addMsg('ai','Sorry, something went wrong. Please try again!');}
+  finally{send.disabled=false;}
+}
+
+function sendQuick(text){
+  document.getElementById('chat-inp').value=text;
+  sendChat();
+  document.getElementById('quick-prompts').style.display='none';
+}
+
+function chatKeydown(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
 </script>
 </body>
 </html>
